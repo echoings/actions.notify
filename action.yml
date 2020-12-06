@@ -1,0 +1,22 @@
+name: 'Notify to bot'
+description: 'notify to your social plat'
+inputs:
+  NOTIFY_TYPE: 
+    description: 'Which platform to notify'
+    required: true
+    default: 'lark'
+  NOTIFY_WEBHOOK: 
+    description: 'Bot webhook url'
+    required: true
+    default: ''
+  NOTIFY_SIGNKEY:
+    description: 'Secrect key if needed'
+    required: false
+    default: ''
+    
+# outputs:
+#   res: # id of output
+#     description: 'The result we greeted you'
+runs:
+  using: 'node12'
+  main: './dist/actions.notify.umd.js'
