@@ -26,7 +26,7 @@ jobs:
     - name: Notify to IM
       uses: echoings/actions.notify@v2
       with:
-        NOTIFY_TYPE: 'lark'
+        NOTIFY_TYPE: 'Lark'
         NOTIFY_WEBHOOK: ${{ secrets.NOTIFY_WEBHOOK }}
         NOTIFY_SIGNKEY: ${{ secrets.NOTIFY_SIGNKEY }}
 ```
