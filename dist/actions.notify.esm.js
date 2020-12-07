@@ -10248,7 +10248,8 @@ var Lark = /** @class */ (function (_super) {
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Message**\uFF0C\n " + (options.notifyMessage || ctxFormatContent.commitsContent),
+                                            content: "**Message**\uFF0C\n " + (options.notifyMessage ||
+                                                ctxFormatContent.commitsContent),
                                             tag: 'lark_md',
                                         },
                                     },
@@ -10331,7 +10332,6 @@ var Plat = {
     Slack: Slack,
     Telegram: Telegram
 };
-//# sourceMappingURL=index.js.map
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
@@ -10352,7 +10352,7 @@ function run() {
                     notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, {
                         notifyTitle: notifyTitle,
                         notifyMessage: notifyMessage,
-                        NOTIFY_SIGNKEY: NOTIFY_SIGNKEY
+                        NOTIFY_SIGNKEY: NOTIFY_SIGNKEY,
                     });
                     msg = void 0;
                     if (!(selfNotify === 'true')) return [3 /*break*/, 5];
