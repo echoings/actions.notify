@@ -1,28 +1,24 @@
-// Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
-// import "core-js/fn/array.find"
-// ...
 import core from '@actions/core'
 import github from '@actions/github'
-import Lark from './lark'
+import Plat from './plat';
 
-const Notify: {
-  [index: string]: typeof Lark
-} = {
-  lark: Lark,
-}
 async function run() {
   try {
     const type = core.getInput('NOTIFY_TYPE')
     const webhook = core.getInput('NOTIFY_WEBHOOK')
     const signKey = core.getInput('NOTIFY_SIGNKEY')
-    const instance = new Notify[type](webhook, signKey)
+    const notify = new Plat[type](webhook, github.context, signKey);
 
-    const ans = await instance.start({ ...github.context, ...github.context.payload })
+    notify.init(github.context);
+    const res = await notify.notify();
 
-    if (ans.code === 0) {
-      console.log('sucess')
+    /**
+     * notify wouldn't block the flow
+     */
+    if (res.code === 0) {
+      console.log('sucess: ', res.msg)
     } else {
-      throw ans
+      console.log('error: ', res.msg)
     }
   } catch (error) {
     console.log(error)

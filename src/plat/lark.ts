@@ -1,27 +1,23 @@
 import axios from 'axios'
 import HmacSHA256 from 'crypto-js/hmac-sha256'
-import Notify from './notify'
+import Notify, { Context, Res } from './notify'
 
 export default class Lark extends Notify {
-  constructor(webhook: string, signKey?: string) {
-    super(webhook, signKey)
+  constructor(webhook: string, githubCtx: Context , signKey?: string) {
+    super(webhook, githubCtx, signKey)
   }
 
-  async start(context: any): Promise<{ code: number; data: any; msg: string }> {
-    const timestamp = new Date().getTime().toString()
-
-    let sign
-    if (this.signKey) {
-      sign = this.genSin(timestamp)
-    }
-
-    const { ref, actor, commits = [], repository = {}, workflow, eventName, sha } = context
-
-    let content: any = []
-    commits.map((item: any) => content.push(item.message))
-    const actionUrl = `${repository.url}/commit/${sha}/checks/${workflow}`
+  async notify(): Promise<Res> {
+    const {
+      options,
+      timestamp,
+      signature,
+      githubCtx: ctx,
+    } = this;
 
     const requestPayload = {
+      timestamp,
+      signature,
       msg_type: 'interactive',
       card: {
         config: {
@@ -39,21 +35,21 @@ export default class Lark extends Notify {
           {
             tag: 'div',
             text: {
-              content: `**Author** ${actor}`,
+              content: `**Author** ${options.actor}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Ref** ${ref}  **Event** ${eventName}`,
+              content: `**Ref** ${options.ref}  **Event** ${options.eventName}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Message**，\n ${content.join('\n')}`,
+              content: `**Message**，\n ${options.commitsContent.join('\n')}`,
               tag: 'lark_md',
             },
           },
@@ -65,7 +61,7 @@ export default class Lark extends Notify {
                   content: '更多部署信息 :玫瑰:',
                   tag: 'lark_md',
                 },
-                url: `${actionUrl}`,
+                url: `${options.actionUrl}`,
                 type: 'default',
                 value: {},
               },
@@ -89,12 +85,10 @@ export default class Lark extends Notify {
     }
   }
 
-  genSin(timestamp: string): string {
+  genSin(signKey: string | undefined = this.signKey, timestamp: string): string {
     const crytoStr = `${timestamp}\n${this.signKey}`
     const signature = HmacSHA256(this.signKey || '', crytoStr).toString()
 
     return Buffer.from(signature).toString('base64')
   }
-
-  notify() {}
 }

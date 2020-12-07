@@ -43,17 +43,6 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -127,7 +116,7 @@ function toCommandValue(input) {
     return JSON.stringify(input);
 }
 exports.toCommandValue = toCommandValue;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils);
@@ -211,7 +200,7 @@ function escapeProperty(s) {
         .replace(/:/g, '%3A')
         .replace(/,/g, '%2C');
 }
-//# sourceMappingURL=command.js.map
+
 });
 
 unwrapExports(command);
@@ -246,7 +235,7 @@ function issueCommand(command, message) {
     });
 }
 exports.issueCommand = issueCommand;
-//# sourceMappingURL=file-command.js.map
+
 });
 
 unwrapExports(fileCommand);
@@ -489,7 +478,7 @@ function getState(name) {
     return process.env[`STATE_${name}`] || '';
 }
 exports.getState = getState;
-//# sourceMappingURL=core.js.map
+
 });
 
 var core$1 = unwrapExports(core);
@@ -561,7 +550,7 @@ class Context {
     }
 }
 exports.Context = Context;
-//# sourceMappingURL=context.js.map
+
 });
 
 unwrapExports(context);
@@ -1483,7 +1472,7 @@ function getApiBaseUrl() {
     return process.env['GITHUB_API_URL'] || 'https://api.github.com';
 }
 exports.getApiBaseUrl = getApiBaseUrl;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils$1);
@@ -1500,7 +1489,6 @@ function getUserAgent() {
     }
     return "<environment undetectable>";
 }
-//# sourceMappingURL=index.js.map
 
 var register_1 = register;
 
@@ -2061,7 +2049,6 @@ const DEFAULTS = {
 };
 
 const endpoint = withDefaults(null, DEFAULTS);
-//# sourceMappingURL=index.js.map
 
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
@@ -3856,7 +3843,6 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
-//# sourceMappingURL=index.js.map
 
 const VERSION$1 = "5.4.12";
 
@@ -3981,7 +3967,6 @@ const request = withDefaults$1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION$1} ${getUserAgent()}`,
     },
 });
-//# sourceMappingURL=index.js.map
 
 const VERSION$2 = "4.5.8";
 
@@ -4072,7 +4057,6 @@ function withCustomRequest(customRequest) {
         url: "/graphql",
     });
 }
-//# sourceMappingURL=index.js.map
 
 async function auth(token) {
     const tokenType = token.split(/\./).length === 3
@@ -4117,7 +4101,6 @@ const createTokenAuth = function createTokenAuth(token) {
         hook: hook.bind(null, token)
     });
 };
-//# sourceMappingURL=index.js.map
 
 const VERSION$3 = "3.2.4";
 
@@ -4239,7 +4222,6 @@ class Octokit {
 }
 Octokit.VERSION = VERSION$3;
 Octokit.plugins = [];
-//# sourceMappingURL=index.js.map
 
 var distWeb = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5596,7 +5578,6 @@ function restEndpointMethods(octokit) {
     return endpointsToMethods(octokit, Endpoints);
 }
 restEndpointMethods.VERSION = VERSION$4;
-//# sourceMappingURL=index.js.map
 
 var distWeb$1 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5711,7 +5692,6 @@ function paginateRest(octokit) {
     };
 }
 paginateRest.VERSION = VERSION$5;
-//# sourceMappingURL=index.js.map
 
 var distWeb$2 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5772,7 +5752,7 @@ function getOctokitOptions(token, options) {
     return opts;
 }
 exports.getOctokitOptions = getOctokitOptions;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils$2);
@@ -5815,7 +5795,7 @@ function getOctokit(token, options) {
     return new utils$2.GitHub(utils$2.getOctokitOptions(token, options));
 }
 exports.getOctokit = getOctokit;
-//# sourceMappingURL=github.js.map
+
 });
 
 var github$1 = unwrapExports(github);
@@ -10449,37 +10429,50 @@ var hmacSha256 = createCommonjsModule(function (module, exports) {
 });
 
 var Notify = /** @class */ (function () {
-    function Notify(webhook, signKey) {
+    function Notify(webhook, githubCtx, signKey) {
+        this.timestamp = new Date().getTime().toString();
         this.webhook = webhook;
         this.signKey = signKey;
+        this.githubCtx = githubCtx;
     }
-    Notify.prototype.start = function (context) { };
-    Notify.prototype.genSin = function (timestamp) { };
-    Notify.prototype.notify = function () { };
+    Notify.prototype.init = function (ctx) {
+        if (ctx === void 0) { ctx = this.githubCtx; }
+        this.timestamp = new Date().getTime().toString();
+        if (this.signKey) {
+            this.signature = this.genSin(this.signKey, this.timestamp);
+        }
+        var ref = ctx.ref, actor = ctx.actor, workflow = ctx.workflow, eventName = ctx.eventName, sha = ctx.sha, payload = ctx.payload;
+        var _a = payload.commits, commits = _a === void 0 ? [] : _a, comment = payload.comment, repository = payload.repository;
+        var commitsContent = [];
+        commits.map(function (item) { return commitsContent.push(item.message); });
+        var actionUrl = (repository === null || repository === void 0 ? void 0 : repository.html_url) + "/commit/" + sha + "/checks/" + workflow;
+        this.options = {
+            ref: ref, actor: actor, workflow: workflow, eventName: eventName, sha: sha, payload: payload,
+            comment: comment,
+            commitsContent: commitsContent.join('\n'),
+            actionUrl: actionUrl,
+            repository: repository
+        };
+        this.githubCtx = ctx;
+    };
     return Notify;
 }());
-//# sourceMappingURL=notify.js.map
 
 var Lark = /** @class */ (function (_super) {
     __extends(Lark, _super);
-    function Lark(webhook, signKey) {
-        return _super.call(this, webhook, signKey) || this;
+    function Lark(webhook, githubCtx, signKey) {
+        return _super.call(this, webhook, githubCtx, signKey) || this;
     }
-    Lark.prototype.start = function (context) {
+    Lark.prototype.notify = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var timestamp, sign, ref, actor, _a, commits, _b, repository, workflow, eventName, sha, content, actionUrl, requestPayload, res;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _a, options, timestamp, signature, ctx, requestPayload, res;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        timestamp = new Date().getTime().toString();
-                        if (this.signKey) {
-                            sign = this.genSin(timestamp);
-                        }
-                        ref = context.ref, actor = context.actor, _a = context.commits, commits = _a === void 0 ? [] : _a, _b = context.repository, repository = _b === void 0 ? {} : _b, workflow = context.workflow, eventName = context.eventName, sha = context.sha;
-                        content = [];
-                        commits.map(function (item) { return content.push(item.message); });
-                        actionUrl = repository.url + "/commit/" + sha + "/checks/" + workflow;
+                        _a = this, options = _a.options, timestamp = _a.timestamp, signature = _a.signature, ctx = _a.githubCtx;
                         requestPayload = {
+                            timestamp: timestamp,
+                            signature: signature,
                             msg_type: 'interactive',
                             card: {
                                 config: {
@@ -10497,21 +10490,21 @@ var Lark = /** @class */ (function (_super) {
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Author** " + actor,
+                                            content: "**Author** " + options.actor,
                                             tag: 'lark_md',
                                         },
                                     },
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Ref** " + ref + "  **Event** " + eventName,
+                                            content: "**Ref** " + options.ref + "  **Event** " + options.eventName,
                                             tag: 'lark_md',
                                         },
                                     },
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Message**\uFF0C\n " + content.join('\n'),
+                                            content: "**Message**\uFF0C\n " + options.commitsContent.join('\n'),
                                             tag: 'lark_md',
                                         },
                                     },
@@ -10523,7 +10516,7 @@ var Lark = /** @class */ (function (_super) {
                                                     content: '更多部署信息 :玫瑰:',
                                                     tag: 'lark_md',
                                                 },
-                                                url: "" + actionUrl,
+                                                url: "" + options.actionUrl,
                                                 type: 'default',
                                                 value: {},
                                             },
@@ -10539,7 +10532,7 @@ var Lark = /** @class */ (function (_super) {
                                 data: requestPayload,
                             })];
                     case 1:
-                        res = _c.sent();
+                        res = _b.sent();
                         return [2 /*return*/, {
                                 code: res.code || res.data.StatusCode,
                                 data: res.data,
@@ -10549,22 +10542,52 @@ var Lark = /** @class */ (function (_super) {
             });
         });
     };
-    Lark.prototype.genSin = function (timestamp) {
+    Lark.prototype.genSin = function (signKey, timestamp) {
+        if (signKey === void 0) { signKey = this.signKey; }
         var crytoStr = timestamp + "\n" + this.signKey;
         var signature = hmacSha256(this.signKey || '', crytoStr).toString();
         return Buffer.from(signature).toString('base64');
     };
-    Lark.prototype.notify = function () { };
     return Lark;
 }(Notify));
-//# sourceMappingURL=lark.js.map
 
-var Notify$1 = {
-    lark: Lark,
+var Slack = /** @class */ (function (_super) {
+    __extends(Slack, _super);
+    function Slack(webhook, githubCtx, signKey) {
+        return _super.call(this, webhook, githubCtx, signKey) || this;
+    }
+    Slack.prototype.notify = function () {
+        throw new Error('Method not implemented.');
+    };
+    Slack.prototype.genSin = function (signKey, timestamp) {
+        throw new Error('Method not implemented.');
+    };
+    return Slack;
+}(Notify));
+
+var Telegram = /** @class */ (function (_super) {
+    __extends(Telegram, _super);
+    function Telegram(webhook, githubCtx, signKey) {
+        return _super.call(this, webhook, githubCtx, signKey) || this;
+    }
+    Telegram.prototype.notify = function () {
+        throw new Error('Method not implemented.');
+    };
+    Telegram.prototype.genSin = function (signKey, timestamp) {
+        throw new Error('Method not implemented.');
+    };
+    return Telegram;
+}(Notify));
+
+var Plat = {
+    Lark: Lark,
+    Slack: Slack,
+    Telegram: Telegram
 };
+
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var type, webhook, signKey, instance, ans, error_1;
+        var type, webhook, signKey, notify, res, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -10572,15 +10595,19 @@ function run() {
                     type = core$1.getInput('NOTIFY_TYPE');
                     webhook = core$1.getInput('NOTIFY_WEBHOOK');
                     signKey = core$1.getInput('NOTIFY_SIGNKEY');
-                    instance = new Notify$1[type](webhook, signKey);
-                    return [4 /*yield*/, instance.start(__assign(__assign({}, github$1.context), github$1.context.payload))];
+                    notify = new Plat[type](webhook, github$1.context, signKey);
+                    notify.init(github$1.context);
+                    return [4 /*yield*/, notify.notify()];
                 case 1:
-                    ans = _a.sent();
-                    if (ans.code === 0) {
-                        console.log('sucess');
+                    res = _a.sent();
+                    /**
+                     * notify wouldn't block the flow
+                     */
+                    if (res.code === 0) {
+                        console.log('sucess: ', res.msg);
                     }
                     else {
-                        throw ans;
+                        console.log('error: ', res.msg);
                     }
                     return [3 /*break*/, 3];
                 case 2:
