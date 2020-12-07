@@ -4,7 +4,7 @@ ls -al
 
 npm install
 
-npm run light-build
+npm light-build
 
 node ./dist/actions.notify.umd.js
 
