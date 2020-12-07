@@ -15674,7 +15674,6 @@ var Plat = {
     Slack: Slack,
     Telegram: Telegram
 };
-//# sourceMappingURL=index.js.map
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {

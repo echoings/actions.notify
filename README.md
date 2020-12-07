@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v3.1
+      uses: echoings/actions.notify@v3
       with:
         plat_type: 'Lark'
         self_notify: 'false'
