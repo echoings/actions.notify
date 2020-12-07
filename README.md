@@ -42,7 +42,7 @@ jobs:
 
 > What if notify format is not suitable for your case?
 
-Generate a `.echo.actions.notify.js` file in your root project, which is export a async function definition as follow, and set `self_notify` to `true` then **You can handle notify yourself**
+Create a `.echo.actions.notify.js` file in your root project, which is export a async function definition as follow, and set `self_notify` to `true` then **You can handle notify yourself**
 
 ```javascript
 module.exports = async function notify(

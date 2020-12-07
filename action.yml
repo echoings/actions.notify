@@ -16,7 +16,7 @@ inputs:
   notify_message:
     description: 'It will use as the content of the notification.'
     required: false
-    default: 'Project updated, please check projects online status'
+    default: ''
 outputs:
   msg: # id of output
     description: 'The msg and code we sended to you'
