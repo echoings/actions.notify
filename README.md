@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v1
+      uses: echoings/actions.notify@v2
       with:
         NOTIFY_TYPE: 'lark'
         NOTIFY_WEBHOOK: ${{ secrets.NOTIFY_WEBHOOK }}
