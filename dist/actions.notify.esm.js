@@ -15600,7 +15600,7 @@ var Lark = /** @class */ (function (_super) {
                                             {
                                                 tag: 'button',
                                                 text: {
-                                                    content: '更多部署信息 :玫瑰:',
+                                                    content: 'More Information :玫瑰:',
                                                     tag: 'lark_md',
                                                 },
                                                 url: "" + ctxFormatContent.actionUrl,
@@ -15695,7 +15695,7 @@ function run() {
                     notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, {
                         notifyTitle: notifyTitle,
                         notifyMessage: notifyMessage,
-                        NOTIFY_SIGNKEY: NOTIFY_SIGNKEY,
+                        signKey: NOTIFY_SIGNKEY,
                     });
                     msg = void 0;
                     if (!(selfNotify === 'true')) return [3 /*break*/, 5];

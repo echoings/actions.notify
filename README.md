@@ -1,9 +1,9 @@
 # actions.notify
 
-A [GitHub Action](https://github.com/features/actions) to send a message to to IM（Lark（飞书），Slack，Telegram）. Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
+A [GitHub Action](https://github.com/features/actions) to send a message to to IM（Lark(飞书), Slack, Telegram）. Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
 
 ## **Screenshot**
-### Lark（飞书）
+### Lark (飞书)
 ![](https://cdn.jsdelivr.net/gh/echoings/un@l/assets/20201207094354.png)
 
 ## Usage
@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v3
+      uses: echoings/actions.notify@v3.1
       with:
         plat_type: 'Lark'
         self_notify: 'false'
@@ -46,7 +46,7 @@ Create a `.echo.actions.notify.js` file in your root project, which is export a 
 
 ```javascript
 module.exports = async function notify(
-  _ctx: currentActionContext,
+  _ctx: @actions/github & Something else,
   envs: process.env,
   axios: Axios,
   _core: @actions/core
@@ -57,7 +57,7 @@ module.exports = async function notify(
 ```
 
 ## Support
-- [x] Lark（飞书）
+- [x] Lark (飞书)
 - [ ] Slack
 - [ ] Telegram
 

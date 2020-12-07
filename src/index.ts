@@ -22,7 +22,7 @@ async function run() {
     const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, {
       notifyTitle,
       notifyMessage,
-      NOTIFY_SIGNKEY,
+      signKey: NOTIFY_SIGNKEY,
     })
 
     let msg

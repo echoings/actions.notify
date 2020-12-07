@@ -54,7 +54,7 @@ export default class Lark extends Notify {
               {
                 tag: 'button',
                 text: {
-                  content: '更多部署信息 :玫瑰:',
+                  content: 'More Information :玫瑰:',
                   tag: 'lark_md',
                 },
                 url: `${ctxFormatContent.actionUrl}`,
