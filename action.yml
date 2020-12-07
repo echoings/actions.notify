@@ -18,5 +18,5 @@ inputs:
 #   res: # id of output
 #     description: 'The result we greeted you'
 runs:
-  using: 'node12'
-  main: './dist/actions.notify.umd.js'
+  using: 'docker'
+  image: 'Dockerfile'
