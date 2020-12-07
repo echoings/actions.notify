@@ -10328,28 +10328,36 @@ var Plat = {
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var type, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, notify, res, msg, error_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var type, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, echoFn, res, msg, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 2, , 3]);
                     type = core$1.getInput('platType');
-                    _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY;
+                    _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY, _b = _a.GITHUB_WORKSPACE, sourceDir = _b === void 0 ? '' : _b;
                     if (!type || !NOTIFY_WEBHOOK) {
                         core$1.setFailed('required arg missing, please check your platType or NOTIFY_WEBHOOK setting');
                         return [2 /*return*/];
                     }
                     notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, NOTIFY_SIGNKEY);
                     notify.init(github$1.context);
+                    try {
+                        echoFn = require(path.join(sourceDir, '.echo.js'));
+                        console.log(typeof echoFn);
+                        echoFn.apply(notify, github$1.context);
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
                     console.log(__dirname);
                     return [4 /*yield*/, notify.notify()];
                 case 1:
-                    res = _b.sent();
+                    res = _c.sent();
                     msg = "code: " + res.code + ", msg: " + res.msg;
                     core$1.setOutput('msg', msg);
                     return [3 /*break*/, 3];
                 case 2:
-                    error_1 = _b.sent();
+                    error_1 = _c.sent();
                     core$1.setFailed(error_1);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
