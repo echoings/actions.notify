@@ -15,6 +15,8 @@ async function run() {
     const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, NOTIFY_SIGNKEY)
 
     notify.init(github.context)
+    console.log(__dirname)
+
     const res = await notify.notify()
 
     const msg = `code: ${res.code}, msg: ${res.msg}`
