@@ -1,5 +1,5 @@
 import axios from 'axios'
-import HmacSHA256 from 'crypto-js/hmac-sha256'
+import CryptoJs from 'crypto-js'
 import Notify, { Context, Res } from './notify'
 
 export default class Lark extends Notify {
@@ -8,11 +8,11 @@ export default class Lark extends Notify {
   }
 
   async notify(): Promise<Res> {
-    const { ctxFormatContent, timestamp, signature, options, githubCtx: ctx } = this
+    const { ctxFormatContent, timestamp, signature: sign, options, githubCtx: ctx } = this
 
     const requestPayload = {
       timestamp,
-      signature,
+      sign,
       msg_type: 'interactive',
       card: {
         config: {
@@ -83,8 +83,8 @@ export default class Lark extends Notify {
 
   genSin(signKey: string | undefined = this.signKey, timestamp: string): string {
     const crytoStr = `${timestamp}\n${this.signKey}`
-    const signature = HmacSHA256(this.signKey || '', crytoStr).toString()
+    const signature = CryptoJs.enc.Base64.stringify(CryptoJs.HmacSHA256('', crytoStr))
 
-    return Buffer.from(signature).toString('base64')
+    return signature
   }
 }
