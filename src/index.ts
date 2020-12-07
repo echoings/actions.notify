@@ -1,29 +1,27 @@
 import core from '@actions/core'
 import github from '@actions/github'
-import Plat from './plat';
+import Plat from './plat'
 
 async function run() {
   try {
-    const type = core.getInput('NOTIFY_TYPE')
-    const webhook = core.getInput('NOTIFY_WEBHOOK')
-    const signKey = core.getInput('NOTIFY_SIGNKEY')
-    const notify = new Plat[type](webhook, github.context, signKey);
+    const type = core.getInput('platType')
+    const { NOTIFY_WEBHOOK, NOTIFY_SIGNKEY } = process.env
 
-    notify.init(github.context);
-    const res = await notify.notify();
-
-    /**
-     * notify wouldn't block the flow
-     */
-    if (res.code === 0) {
-      console.log('sucess: ', res.msg)
-    } else {
-      console.log('error: ', res.msg)
+    if (!type || !NOTIFY_WEBHOOK) {
+      core.setFailed('required arg missing, please check your platType or NOTIFY_WEBHOOK setting')
+      return
     }
+
+    const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, NOTIFY_SIGNKEY)
+
+    notify.init(github.context)
+    const res = await notify.notify()
+
+    const msg = `code: ${res.code}, msg: ${res.msg}`
+    core.setOutput('msg', msg)
   } catch (error) {
-    console.log(error)
     core.setFailed(error)
   }
 }
 
-run()
+void run()

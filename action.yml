@@ -1,22 +1,13 @@
-name: 'Notify to bot'
-description: 'notify to your social plat'
+name: 'IM Notification'
+description: 'Notify to your social platform'
 inputs:
-  NOTIFY_TYPE: 
-    description: 'Which platform to notify'
+  platType: 
+    description: 'Which social platform to notify'
     required: true
     default: 'Lark'
-  NOTIFY_WEBHOOK: 
-    description: 'Bot webhook url'
-    required: true
-    default: ''
-  NOTIFY_SIGNKEY:
-    description: 'Secrect key if needed'
-    required: false
-    default: ''
-    
-# outputs:
-#   res: # id of output
-#     description: 'The result we greeted you'
+outputs:
+  msg: # id of output
+    description: 'The msg and code we sended to you'
 runs:
   using: 'node12'
   main: './dist/actions.notify.umd.js'
