@@ -5,6 +5,10 @@ inputs:
     description: 'Which social platform to notify'
     required: true
     default: 'Lark'
+  selfNotify:
+    description: 'if you need to'
+    required: false
+    default: 'false'
 outputs:
   msg: # id of output
     description: 'The msg and code we sended to you'

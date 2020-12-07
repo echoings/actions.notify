@@ -10170,6 +10170,7 @@ var Notify = /** @class */ (function () {
         this.webhook = webhook;
         this.signKey = signKey;
         this.githubCtx = githubCtx;
+        this.init(githubCtx);
     }
     Notify.prototype.init = function (ctx) {
         if (ctx === void 0) { ctx = this.githubCtx; }
@@ -10328,39 +10329,47 @@ var Plat = {
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var type, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, echoFn, res, msg, error_1;
+        var type, selfNotify, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, msg, notifyFn, error_1, res, error_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    _c.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 8, , 9]);
                     type = core$1.getInput('platType');
+                    selfNotify = core$1.getInput('selfNotify');
                     _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY, _b = _a.GITHUB_WORKSPACE, sourceDir = _b === void 0 ? '' : _b;
                     if (!type || !NOTIFY_WEBHOOK) {
                         core$1.setFailed('required arg missing, please check your platType or NOTIFY_WEBHOOK setting');
                         return [2 /*return*/];
                     }
                     notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, NOTIFY_SIGNKEY);
-                    notify.init(github$1.context);
-                    try {
-                        echoFn = require(path.join(sourceDir, '.echo.js'));
-                        console.log(typeof echoFn);
-                        echoFn.apply(notify, github$1.context);
-                    }
-                    catch (error) {
-                        console.log(error);
-                    }
-                    console.log(__dirname);
-                    return [4 /*yield*/, notify.notify()];
+                    msg = void 0;
+                    if (!(selfNotify === 'true')) return [3 /*break*/, 5];
+                    _c.label = 1;
                 case 1:
-                    res = _c.sent();
-                    msg = "code: " + res.code + ", msg: " + res.msg;
-                    core$1.setOutput('msg', msg);
-                    return [3 /*break*/, 3];
+                    _c.trys.push([1, 3, , 4]);
+                    notifyFn = require(path.join(sourceDir, '.echo.actions.notify.js'));
+                    return [4 /*yield*/, notifyFn.call(notify, github$1.context, process.env, axios$1, core$1)];
                 case 2:
+                    msg = _c.sent();
+                    return [3 /*break*/, 4];
+                case 3:
                     error_1 = _c.sent();
                     core$1.setFailed(error_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [3 /*break*/, 7];
+                case 5: return [4 /*yield*/, notify.notify()];
+                case 6:
+                    res = _c.sent();
+                    msg = "code: " + res.code + ", msg: " + res.msg;
+                    _c.label = 7;
+                case 7:
+                    core$1.setOutput('msg', msg);
+                    return [3 /*break*/, 9];
+                case 8:
+                    error_2 = _c.sent();
+                    core$1.setFailed(error_2);
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
             }
         });
     });
