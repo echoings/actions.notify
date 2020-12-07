@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ls -al
+
 npm install
 
 npm run light-build
