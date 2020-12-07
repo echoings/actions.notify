@@ -1,6 +1,6 @@
 FROM node:lts-alpine3.10
 
-COPY *.sh /
+COPY * /
 
 RUN chmod +x /*.sh
 
