@@ -10165,11 +10165,12 @@ var hmacSha256 = createCommonjsModule(function (module, exports) {
 });
 
 var Notify = /** @class */ (function () {
-    function Notify(webhook, githubCtx, signKey) {
+    function Notify(webhook, githubCtx, options) {
         this.timestamp = new Date().getTime().toString();
         this.webhook = webhook;
-        this.signKey = signKey;
         this.githubCtx = githubCtx;
+        this.options = options;
+        this.signKey = options.signKey;
         this.init(githubCtx);
     }
     Notify.prototype.init = function (ctx) {
@@ -10183,12 +10184,17 @@ var Notify = /** @class */ (function () {
         var commitsContent = [];
         commits.map(function (item) { return commitsContent.push(item.message); });
         var actionUrl = (repository === null || repository === void 0 ? void 0 : repository.html_url) + "/commit/" + sha + "/checks/" + workflow;
-        this.options = {
-            ref: ref, actor: actor, workflow: workflow, eventName: eventName, sha: sha, payload: payload,
+        this.ctxFormatContent = {
+            ref: ref,
+            actor: actor,
+            workflow: workflow,
+            eventName: eventName,
+            sha: sha,
+            payload: payload,
             comment: comment,
             commitsContent: commitsContent.join('\n'),
             actionUrl: actionUrl,
-            repository: repository
+            repository: repository,
         };
         this.githubCtx = ctx;
     };
@@ -10198,16 +10204,16 @@ var Notify = /** @class */ (function () {
 
 var Lark = /** @class */ (function (_super) {
     __extends(Lark, _super);
-    function Lark(webhook, githubCtx, signKey) {
-        return _super.call(this, webhook, githubCtx, signKey) || this;
+    function Lark(webhook, githubCtx, options) {
+        return _super.call(this, webhook, githubCtx, options) || this;
     }
     Lark.prototype.notify = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, options, timestamp, signature, ctx, requestPayload, res;
+            var _a, ctxFormatContent, timestamp, signature, options, ctx, requestPayload, res;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = this, options = _a.options, timestamp = _a.timestamp, signature = _a.signature, ctx = _a.githubCtx;
+                        _a = this, ctxFormatContent = _a.ctxFormatContent, timestamp = _a.timestamp, signature = _a.signature, options = _a.options, ctx = _a.githubCtx;
                         requestPayload = {
                             timestamp: timestamp,
                             signature: signature,
@@ -10219,7 +10225,7 @@ var Lark = /** @class */ (function (_super) {
                                 },
                                 header: {
                                     title: {
-                                        content: '项目更新',
+                                        content: "" + options.notifyTitle,
                                         tag: 'plain_text',
                                     },
                                     template: 'red',
@@ -10228,21 +10234,21 @@ var Lark = /** @class */ (function (_super) {
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Author** " + options.actor,
+                                            content: "**Author** " + ctxFormatContent.actor,
                                             tag: 'lark_md',
                                         },
                                     },
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Ref** " + options.ref + "  **Event** " + options.eventName,
+                                            content: "**Ref** " + ctxFormatContent.ref + "  **Event** " + ctxFormatContent.eventName,
                                             tag: 'lark_md',
                                         },
                                     },
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Message**\uFF0C\n " + options.commitsContent,
+                                            content: "**Message**\uFF0C\n " + (options.notifyMessage || ctxFormatContent.commitsContent),
                                             tag: 'lark_md',
                                         },
                                     },
@@ -10254,7 +10260,7 @@ var Lark = /** @class */ (function (_super) {
                                                     content: '更多部署信息 :玫瑰:',
                                                     tag: 'lark_md',
                                                 },
-                                                url: "" + options.actionUrl,
+                                                url: "" + ctxFormatContent.actionUrl,
                                                 type: 'default',
                                                 value: {},
                                             },
@@ -10292,8 +10298,8 @@ var Lark = /** @class */ (function (_super) {
 
 var Slack = /** @class */ (function (_super) {
     __extends(Slack, _super);
-    function Slack(webhook, githubCtx, signKey) {
-        return _super.call(this, webhook, githubCtx, signKey) || this;
+    function Slack(webhook, githubCtx, options) {
+        return _super.call(this, webhook, githubCtx, options) || this;
     }
     Slack.prototype.notify = function () {
         throw new Error('Method not implemented.');
@@ -10307,8 +10313,8 @@ var Slack = /** @class */ (function (_super) {
 
 var Telegram = /** @class */ (function (_super) {
     __extends(Telegram, _super);
-    function Telegram(webhook, githubCtx, signKey) {
-        return _super.call(this, webhook, githubCtx, signKey) || this;
+    function Telegram(webhook, githubCtx, options) {
+        return _super.call(this, webhook, githubCtx, options) || this;
     }
     Telegram.prototype.notify = function () {
         throw new Error('Method not implemented.');
@@ -10329,19 +10335,25 @@ var Plat = {
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var type, selfNotify, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, msg, notifyFn, error_1, res, error_2;
+        var type, selfNotify, notifyTitle, notifyMessage, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, msg, notifyFn, error_1, res, error_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _c.trys.push([0, 8, , 9]);
-                    type = core$1.getInput('platType');
-                    selfNotify = core$1.getInput('selfNotify');
+                    type = core$1.getInput('plat_type');
+                    selfNotify = core$1.getInput('self_notify');
+                    notifyTitle = core$1.getInput('notify_title');
+                    notifyMessage = core$1.getInput('notify_message');
                     _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY, _b = _a.GITHUB_WORKSPACE, sourceDir = _b === void 0 ? '' : _b;
                     if (!type || !NOTIFY_WEBHOOK) {
-                        core$1.setFailed('required arg missing, please check your platType or NOTIFY_WEBHOOK setting');
+                        core$1.setFailed('required args is missing, please check your plat_type or NOTIFY_WEBHOOK setting');
                         return [2 /*return*/];
                     }
-                    notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, NOTIFY_SIGNKEY);
+                    notify = new Plat[type](NOTIFY_WEBHOOK, github$1.context, {
+                        notifyTitle: notifyTitle,
+                        notifyMessage: notifyMessage,
+                        NOTIFY_SIGNKEY: NOTIFY_SIGNKEY
+                    });
                     msg = void 0;
                     if (!(selfNotify === 'true')) return [3 /*break*/, 5];
                     _c.label = 1;

@@ -6,16 +6,24 @@ import Plat from './plat'
 
 async function run() {
   try {
-    const type = core.getInput('platType')
-    const selfNotify = core.getInput('selfNotify')
+    const type = core.getInput('plat_type')
+    const selfNotify = core.getInput('self_notify')
+    const notifyTitle = core.getInput('notify_title')
+    const notifyMessage = core.getInput('notify_message')
     const { NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, GITHUB_WORKSPACE: sourceDir = '' } = process.env
 
     if (!type || !NOTIFY_WEBHOOK) {
-      core.setFailed('required arg missing, please check your platType or NOTIFY_WEBHOOK setting')
+      core.setFailed(
+        'required args is missing, please check your plat_type or NOTIFY_WEBHOOK setting'
+      )
       return
     }
 
-    const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, NOTIFY_SIGNKEY)
+    const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, {
+      notifyTitle,
+      notifyMessage,
+      NOTIFY_SIGNKEY,
+    })
 
     let msg
     if (selfNotify === 'true') {

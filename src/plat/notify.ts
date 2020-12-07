@@ -4,13 +4,15 @@ export default abstract class Notify {
   signKey: string | undefined
   signature: string | undefined
   webhook: string
+  ctxFormatContent: any
   options: any
   timestamp: string = new Date().getTime().toString()
   githubCtx: Context
-  constructor(webhook: string, githubCtx: Context, signKey?: string) {
+  constructor(webhook: string, githubCtx: Context, options: any) {
     this.webhook = webhook
-    this.signKey = signKey
     this.githubCtx = githubCtx
+    this.options = options
+    this.signKey = options.signKey
     this.init(githubCtx)
   }
 
@@ -27,7 +29,7 @@ export default abstract class Notify {
     commits.map((item: any) => commitsContent.push(item.message))
     const actionUrl = `${repository?.html_url}/commit/${sha}/checks/${workflow}`
 
-    this.options = {
+    this.ctxFormatContent = {
       ref,
       actor,
       workflow,

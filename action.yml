@@ -1,14 +1,22 @@
 name: 'IM Notification'
 description: 'Notify to your social platform'
 inputs:
-  platType: 
+  plat_type: 
     description: 'Which social platform to notify'
     required: true
     default: 'Lark'
-  selfNotify:
-    description: 'if you need to'
+  self_notify:
+    description: 'If you need to handle notify yourself, help your self'
     required: false
     default: 'false'
+  notify_title:
+    description: 'It will use as the head title of the notification.'
+    required: false
+    default: 'Project Updated'
+  notify_message:
+    description: 'It will use as the content of the notification.'
+    required: false
+    default: 'Project updated, please check projects online status'
 outputs:
   msg: # id of output
     description: 'The msg and code we sended to you'

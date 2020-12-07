@@ -3,17 +3,12 @@ import HmacSHA256 from 'crypto-js/hmac-sha256'
 import Notify, { Context, Res } from './notify'
 
 export default class Lark extends Notify {
-  constructor(webhook: string, githubCtx: Context , signKey?: string) {
-    super(webhook, githubCtx, signKey)
+  constructor(webhook: string, githubCtx: Context, options: any) {
+    super(webhook, githubCtx, options)
   }
 
   async notify(): Promise<Res> {
-    const {
-      options,
-      timestamp,
-      signature,
-      githubCtx: ctx,
-    } = this;
+    const { ctxFormatContent, timestamp, signature, options, githubCtx: ctx } = this
 
     const requestPayload = {
       timestamp,
@@ -26,7 +21,7 @@ export default class Lark extends Notify {
         },
         header: {
           title: {
-            content: '项目更新',
+            content: `${options.notifyTitle}`,
             tag: 'plain_text',
           },
           template: 'red',
@@ -35,21 +30,22 @@ export default class Lark extends Notify {
           {
             tag: 'div',
             text: {
-              content: `**Author** ${options.actor}`,
+              content: `**Author** ${ctxFormatContent.actor}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Ref** ${options.ref}  **Event** ${options.eventName}`,
+              content: `**Ref** ${ctxFormatContent.ref}  **Event** ${ctxFormatContent.eventName}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Message**，\n ${options.commitsContent}`,
+              content: `**Message**，\n ${options.notifyMessage ||
+                ctxFormatContent.commitsContent}`,
               tag: 'lark_md',
             },
           },
@@ -61,7 +57,7 @@ export default class Lark extends Notify {
                   content: '更多部署信息 :玫瑰:',
                   tag: 'lark_md',
                 },
-                url: `${options.actionUrl}`,
+                url: `${ctxFormatContent.actionUrl}`,
                 type: 'default',
                 value: {},
               },
