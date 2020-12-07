@@ -15674,6 +15674,7 @@ var Plat = {
     Slack: Slack,
     Telegram: Telegram
 };
+//# sourceMappingURL=index.js.map
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
@@ -15684,7 +15685,7 @@ function run() {
                     _c.trys.push([0, 8, , 9]);
                     type = core$1.getInput('plat_type');
                     selfNotify = core$1.getInput('self_notify');
-                    notifyTitle = core$1.getInput('notify_title');
+                    notifyTitle = core$1.getInput('notify_title') || 'Project Update';
                     notifyMessage = core$1.getInput('notify_message');
                     _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY, _b = _a.GITHUB_WORKSPACE, sourceDir = _b === void 0 ? '' : _b;
                     if (!type || !NOTIFY_WEBHOOK) {

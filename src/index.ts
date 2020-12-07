@@ -8,7 +8,7 @@ async function run() {
   try {
     const type = core.getInput('plat_type')
     const selfNotify = core.getInput('self_notify')
-    const notifyTitle = core.getInput('notify_title')
+    const notifyTitle = core.getInput('notify_title') || 'Project Update'
     const notifyMessage = core.getInput('notify_message')
     const { NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, GITHUB_WORKSPACE: sourceDir = '' } = process.env
 
