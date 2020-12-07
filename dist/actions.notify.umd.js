@@ -10472,7 +10472,6 @@
         };
         return Notify;
     }());
-    //# sourceMappingURL=notify.js.map
 
     var Lark = /** @class */ (function (_super) {
         __extends(Lark, _super);
@@ -10566,7 +10565,6 @@
         };
         return Lark;
     }(Notify));
-    //# sourceMappingURL=lark.js.map
 
     var Slack = /** @class */ (function (_super) {
         __extends(Slack, _super);
@@ -10581,7 +10579,6 @@
         };
         return Slack;
     }(Notify));
-    //# sourceMappingURL=slask.js.map
 
     var Telegram = /** @class */ (function (_super) {
         __extends(Telegram, _super);
@@ -10596,7 +10593,6 @@
         };
         return Telegram;
     }(Notify));
-    //# sourceMappingURL=telegram.js.map
 
     var Plat = {
         Lark: Lark,
@@ -10640,7 +10636,6 @@
         });
     }
     run();
-    //# sourceMappingURL=index.js.map
 
 })));
 //# sourceMappingURL=actions.notify.umd.js.map

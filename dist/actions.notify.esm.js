@@ -10466,7 +10466,6 @@ var Notify = /** @class */ (function () {
     };
     return Notify;
 }());
-//# sourceMappingURL=notify.js.map
 
 var Lark = /** @class */ (function (_super) {
     __extends(Lark, _super);
@@ -10560,7 +10559,6 @@ var Lark = /** @class */ (function (_super) {
     };
     return Lark;
 }(Notify));
-//# sourceMappingURL=lark.js.map
 
 var Slack = /** @class */ (function (_super) {
     __extends(Slack, _super);
@@ -10575,7 +10573,6 @@ var Slack = /** @class */ (function (_super) {
     };
     return Slack;
 }(Notify));
-//# sourceMappingURL=slask.js.map
 
 var Telegram = /** @class */ (function (_super) {
     __extends(Telegram, _super);
@@ -10590,7 +10587,6 @@ var Telegram = /** @class */ (function (_super) {
     };
     return Telegram;
 }(Notify));
-//# sourceMappingURL=telegram.js.map
 
 var Plat = {
     Lark: Lark,
@@ -10634,5 +10630,4 @@ function run() {
     });
 }
 run();
-//# sourceMappingURL=index.js.map
 //# sourceMappingURL=actions.notify.esm.js.map
