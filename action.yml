@@ -4,7 +4,7 @@ inputs:
   NOTIFY_TYPE: 
     description: 'Which platform to notify'
     required: true
-    default: 'lark'
+    default: 'Lark'
   NOTIFY_WEBHOOK: 
     description: 'Bot webhook url'
     required: true

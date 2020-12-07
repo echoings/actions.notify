@@ -49,7 +49,7 @@ export default class Lark extends Notify {
           {
             tag: 'div',
             text: {
-              content: `**Message**，\n ${options.commitsContent.join('\n')}`,
+              content: `**Message**，\n ${options.commitsContent}`,
               tag: 'lark_md',
             },
           },

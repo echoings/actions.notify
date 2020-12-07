@@ -116,7 +116,7 @@ function toCommandValue(input) {
     return JSON.stringify(input);
 }
 exports.toCommandValue = toCommandValue;
-
+//# sourceMappingURL=utils.js.map
 });
 
 unwrapExports(utils);
@@ -200,7 +200,7 @@ function escapeProperty(s) {
         .replace(/:/g, '%3A')
         .replace(/,/g, '%2C');
 }
-
+//# sourceMappingURL=command.js.map
 });
 
 unwrapExports(command);
@@ -235,7 +235,7 @@ function issueCommand(command, message) {
     });
 }
 exports.issueCommand = issueCommand;
-
+//# sourceMappingURL=file-command.js.map
 });
 
 unwrapExports(fileCommand);
@@ -478,7 +478,7 @@ function getState(name) {
     return process.env[`STATE_${name}`] || '';
 }
 exports.getState = getState;
-
+//# sourceMappingURL=core.js.map
 });
 
 var core$1 = unwrapExports(core);
@@ -550,7 +550,7 @@ class Context {
     }
 }
 exports.Context = Context;
-
+//# sourceMappingURL=context.js.map
 });
 
 unwrapExports(context);
@@ -1472,7 +1472,7 @@ function getApiBaseUrl() {
     return process.env['GITHUB_API_URL'] || 'https://api.github.com';
 }
 exports.getApiBaseUrl = getApiBaseUrl;
-
+//# sourceMappingURL=utils.js.map
 });
 
 unwrapExports(utils$1);
@@ -1489,6 +1489,7 @@ function getUserAgent() {
     }
     return "<environment undetectable>";
 }
+//# sourceMappingURL=index.js.map
 
 var register_1 = register;
 
@@ -2049,6 +2050,7 @@ const DEFAULTS = {
 };
 
 const endpoint = withDefaults(null, DEFAULTS);
+//# sourceMappingURL=index.js.map
 
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
@@ -3843,6 +3845,7 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
+//# sourceMappingURL=index.js.map
 
 const VERSION$1 = "5.4.12";
 
@@ -3967,6 +3970,7 @@ const request = withDefaults$1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION$1} ${getUserAgent()}`,
     },
 });
+//# sourceMappingURL=index.js.map
 
 const VERSION$2 = "4.5.8";
 
@@ -4057,6 +4061,7 @@ function withCustomRequest(customRequest) {
         url: "/graphql",
     });
 }
+//# sourceMappingURL=index.js.map
 
 async function auth(token) {
     const tokenType = token.split(/\./).length === 3
@@ -4101,6 +4106,7 @@ const createTokenAuth = function createTokenAuth(token) {
         hook: hook.bind(null, token)
     });
 };
+//# sourceMappingURL=index.js.map
 
 const VERSION$3 = "3.2.4";
 
@@ -4222,6 +4228,7 @@ class Octokit {
 }
 Octokit.VERSION = VERSION$3;
 Octokit.plugins = [];
+//# sourceMappingURL=index.js.map
 
 var distWeb = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5578,6 +5585,7 @@ function restEndpointMethods(octokit) {
     return endpointsToMethods(octokit, Endpoints);
 }
 restEndpointMethods.VERSION = VERSION$4;
+//# sourceMappingURL=index.js.map
 
 var distWeb$1 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5692,6 +5700,7 @@ function paginateRest(octokit) {
     };
 }
 paginateRest.VERSION = VERSION$5;
+//# sourceMappingURL=index.js.map
 
 var distWeb$2 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5752,7 +5761,7 @@ function getOctokitOptions(token, options) {
     return opts;
 }
 exports.getOctokitOptions = getOctokitOptions;
-
+//# sourceMappingURL=utils.js.map
 });
 
 unwrapExports(utils$2);
@@ -5795,7 +5804,7 @@ function getOctokit(token, options) {
     return new utils$2.GitHub(utils$2.getOctokitOptions(token, options));
 }
 exports.getOctokit = getOctokit;
-
+//# sourceMappingURL=github.js.map
 });
 
 var github$1 = unwrapExports(github);
@@ -10457,6 +10466,7 @@ var Notify = /** @class */ (function () {
     };
     return Notify;
 }());
+//# sourceMappingURL=notify.js.map
 
 var Lark = /** @class */ (function (_super) {
     __extends(Lark, _super);
@@ -10504,7 +10514,7 @@ var Lark = /** @class */ (function (_super) {
                                     {
                                         tag: 'div',
                                         text: {
-                                            content: "**Message**\uFF0C\n " + options.commitsContent.join('\n'),
+                                            content: "**Message**\uFF0C\n " + options.commitsContent,
                                             tag: 'lark_md',
                                         },
                                     },
@@ -10550,6 +10560,7 @@ var Lark = /** @class */ (function (_super) {
     };
     return Lark;
 }(Notify));
+//# sourceMappingURL=lark.js.map
 
 var Slack = /** @class */ (function (_super) {
     __extends(Slack, _super);
@@ -10564,6 +10575,7 @@ var Slack = /** @class */ (function (_super) {
     };
     return Slack;
 }(Notify));
+//# sourceMappingURL=slask.js.map
 
 var Telegram = /** @class */ (function (_super) {
     __extends(Telegram, _super);
@@ -10578,6 +10590,7 @@ var Telegram = /** @class */ (function (_super) {
     };
     return Telegram;
 }(Notify));
+//# sourceMappingURL=telegram.js.map
 
 var Plat = {
     Lark: Lark,
@@ -10621,4 +10634,5 @@ function run() {
     });
 }
 run();
+//# sourceMappingURL=index.js.map
 //# sourceMappingURL=actions.notify.esm.js.map

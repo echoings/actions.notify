@@ -122,7 +122,7 @@
         return JSON.stringify(input);
     }
     exports.toCommandValue = toCommandValue;
-
+    //# sourceMappingURL=utils.js.map
     });
 
     unwrapExports(utils);
@@ -206,7 +206,7 @@
             .replace(/:/g, '%3A')
             .replace(/,/g, '%2C');
     }
-
+    //# sourceMappingURL=command.js.map
     });
 
     unwrapExports(command);
@@ -241,7 +241,7 @@
         });
     }
     exports.issueCommand = issueCommand;
-
+    //# sourceMappingURL=file-command.js.map
     });
 
     unwrapExports(fileCommand);
@@ -484,7 +484,7 @@
         return process.env[`STATE_${name}`] || '';
     }
     exports.getState = getState;
-
+    //# sourceMappingURL=core.js.map
     });
 
     var core$1 = unwrapExports(core);
@@ -556,7 +556,7 @@
         }
     }
     exports.Context = Context;
-
+    //# sourceMappingURL=context.js.map
     });
 
     unwrapExports(context);
@@ -1478,7 +1478,7 @@
         return process.env['GITHUB_API_URL'] || 'https://api.github.com';
     }
     exports.getApiBaseUrl = getApiBaseUrl;
-
+    //# sourceMappingURL=utils.js.map
     });
 
     unwrapExports(utils$1);
@@ -1495,6 +1495,7 @@
         }
         return "<environment undetectable>";
     }
+    //# sourceMappingURL=index.js.map
 
     var register_1 = register;
 
@@ -2055,6 +2056,7 @@
     };
 
     const endpoint = withDefaults(null, DEFAULTS);
+    //# sourceMappingURL=index.js.map
 
     /*!
      * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
@@ -3849,6 +3851,7 @@
             this.request = requestCopy;
         }
     }
+    //# sourceMappingURL=index.js.map
 
     const VERSION$1 = "5.4.12";
 
@@ -3973,6 +3976,7 @@
             "user-agent": `octokit-request.js/${VERSION$1} ${getUserAgent()}`,
         },
     });
+    //# sourceMappingURL=index.js.map
 
     const VERSION$2 = "4.5.8";
 
@@ -4063,6 +4067,7 @@
             url: "/graphql",
         });
     }
+    //# sourceMappingURL=index.js.map
 
     async function auth(token) {
         const tokenType = token.split(/\./).length === 3
@@ -4107,6 +4112,7 @@
             hook: hook.bind(null, token)
         });
     };
+    //# sourceMappingURL=index.js.map
 
     const VERSION$3 = "3.2.4";
 
@@ -4228,6 +4234,7 @@
     }
     Octokit.VERSION = VERSION$3;
     Octokit.plugins = [];
+    //# sourceMappingURL=index.js.map
 
     var distWeb = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -5584,6 +5591,7 @@
         return endpointsToMethods(octokit, Endpoints);
     }
     restEndpointMethods.VERSION = VERSION$4;
+    //# sourceMappingURL=index.js.map
 
     var distWeb$1 = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -5698,6 +5706,7 @@
         };
     }
     paginateRest.VERSION = VERSION$5;
+    //# sourceMappingURL=index.js.map
 
     var distWeb$2 = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -5758,7 +5767,7 @@
         return opts;
     }
     exports.getOctokitOptions = getOctokitOptions;
-
+    //# sourceMappingURL=utils.js.map
     });
 
     unwrapExports(utils$2);
@@ -5801,7 +5810,7 @@
         return new utils$2.GitHub(utils$2.getOctokitOptions(token, options));
     }
     exports.getOctokit = getOctokit;
-
+    //# sourceMappingURL=github.js.map
     });
 
     var github$1 = unwrapExports(github);
@@ -10463,6 +10472,7 @@
         };
         return Notify;
     }());
+    //# sourceMappingURL=notify.js.map
 
     var Lark = /** @class */ (function (_super) {
         __extends(Lark, _super);
@@ -10510,7 +10520,7 @@
                                         {
                                             tag: 'div',
                                             text: {
-                                                content: "**Message**\uFF0C\n " + options.commitsContent.join('\n'),
+                                                content: "**Message**\uFF0C\n " + options.commitsContent,
                                                 tag: 'lark_md',
                                             },
                                         },
@@ -10556,6 +10566,7 @@
         };
         return Lark;
     }(Notify));
+    //# sourceMappingURL=lark.js.map
 
     var Slack = /** @class */ (function (_super) {
         __extends(Slack, _super);
@@ -10570,6 +10581,7 @@
         };
         return Slack;
     }(Notify));
+    //# sourceMappingURL=slask.js.map
 
     var Telegram = /** @class */ (function (_super) {
         __extends(Telegram, _super);
@@ -10584,6 +10596,7 @@
         };
         return Telegram;
     }(Notify));
+    //# sourceMappingURL=telegram.js.map
 
     var Plat = {
         Lark: Lark,
@@ -10627,6 +10640,7 @@
         });
     }
     run();
+    //# sourceMappingURL=index.js.map
 
 })));
 //# sourceMappingURL=actions.notify.umd.js.map
