@@ -54,7 +54,7 @@ module.exports = async function notify(
   msg: string
 }
 ```
-
+`Tips: ` If you need more extra dependency package, please do and use [ncc](https://github.com/vercel/ncc#readme) to bundle them together.
 ## Support
 - [x] Lark (飞书)
 - [ ] Slack
