@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v3.1
+      uses: echoings/actions.notify@v3.2
       with:
         plat_type: 'Lark'
         notify_title: 'Project Updated'
@@ -44,10 +44,10 @@ Create a `.echo.actions.notify.js` file in your root project, which is export an
 
 ```javascript
 module.exports = async function notify(
-  _ctx: @actions/github & Something else,
+  ctx: github.context (@actions/github),
   envs: process.env,
   axios: Axios,
-  _core: @actions/core
+  core: @actions/core
 ): {
   code: number,
   msg: 'console message'
