@@ -5,10 +5,6 @@ inputs:
     description: 'Which social platform to notify'
     required: true
     default: 'Lark'
-  self_notify:
-    description: 'If you need to handle notify yourself, help your self'
-    required: false
-    default: 'false'
   notify_title:
     description: 'It will use as the head title of the notification.'
     required: false

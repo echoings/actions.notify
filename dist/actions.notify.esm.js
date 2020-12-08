@@ -116,7 +116,7 @@ function toCommandValue(input) {
     return JSON.stringify(input);
 }
 exports.toCommandValue = toCommandValue;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils);
@@ -200,7 +200,7 @@ function escapeProperty(s) {
         .replace(/:/g, '%3A')
         .replace(/,/g, '%2C');
 }
-//# sourceMappingURL=command.js.map
+
 });
 
 unwrapExports(command);
@@ -235,7 +235,7 @@ function issueCommand(command, message) {
     });
 }
 exports.issueCommand = issueCommand;
-//# sourceMappingURL=file-command.js.map
+
 });
 
 unwrapExports(fileCommand);
@@ -478,7 +478,7 @@ function getState(name) {
     return process.env[`STATE_${name}`] || '';
 }
 exports.getState = getState;
-//# sourceMappingURL=core.js.map
+
 });
 
 var core$1 = unwrapExports(core);
@@ -550,7 +550,7 @@ class Context {
     }
 }
 exports.Context = Context;
-//# sourceMappingURL=context.js.map
+
 });
 
 unwrapExports(context);
@@ -1472,7 +1472,7 @@ function getApiBaseUrl() {
     return process.env['GITHUB_API_URL'] || 'https://api.github.com';
 }
 exports.getApiBaseUrl = getApiBaseUrl;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils$1);
@@ -1489,7 +1489,6 @@ function getUserAgent() {
     }
     return "<environment undetectable>";
 }
-//# sourceMappingURL=index.js.map
 
 var register_1 = register;
 
@@ -2050,7 +2049,6 @@ const DEFAULTS = {
 };
 
 const endpoint = withDefaults(null, DEFAULTS);
-//# sourceMappingURL=index.js.map
 
 // Based on https://github.com/tmpvar/jsdom/blob/aa85b2abf07766ff7bf5c1f6daafb3726f2f2db5/lib/jsdom/living/blob.js
 
@@ -3812,7 +3810,6 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
-//# sourceMappingURL=index.js.map
 
 const VERSION$1 = "5.4.12";
 
@@ -3937,7 +3934,6 @@ const request = withDefaults$1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION$1} ${getUserAgent()}`,
     },
 });
-//# sourceMappingURL=index.js.map
 
 const VERSION$2 = "4.5.8";
 
@@ -4028,7 +4024,6 @@ function withCustomRequest(customRequest) {
         url: "/graphql",
     });
 }
-//# sourceMappingURL=index.js.map
 
 async function auth(token) {
     const tokenType = token.split(/\./).length === 3
@@ -4073,7 +4068,6 @@ const createTokenAuth = function createTokenAuth(token) {
         hook: hook.bind(null, token)
     });
 };
-//# sourceMappingURL=index.js.map
 
 const VERSION$3 = "3.2.4";
 
@@ -4195,7 +4189,6 @@ class Octokit {
 }
 Octokit.VERSION = VERSION$3;
 Octokit.plugins = [];
-//# sourceMappingURL=index.js.map
 
 var distWeb = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5552,7 +5545,6 @@ function restEndpointMethods(octokit) {
     return endpointsToMethods(octokit, Endpoints);
 }
 restEndpointMethods.VERSION = VERSION$4;
-//# sourceMappingURL=index.js.map
 
 var distWeb$1 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5667,7 +5659,6 @@ function paginateRest(octokit) {
     };
 }
 paginateRest.VERSION = VERSION$5;
-//# sourceMappingURL=index.js.map
 
 var distWeb$2 = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -5728,7 +5719,7 @@ function getOctokitOptions(token, options) {
     return opts;
 }
 exports.getOctokitOptions = getOctokitOptions;
-//# sourceMappingURL=utils.js.map
+
 });
 
 unwrapExports(utils$2);
@@ -5771,7 +5762,7 @@ function getOctokit(token, options) {
     return new utils$2.GitHub(utils$2.getOctokitOptions(token, options));
 }
 exports.getOctokit = getOctokit;
-//# sourceMappingURL=github.js.map
+
 });
 
 var github$1 = unwrapExports(github);
@@ -15542,7 +15533,6 @@ var Notify = /** @class */ (function () {
     };
     return Notify;
 }());
-//# sourceMappingURL=notify.js.map
 
 var Lark = /** @class */ (function (_super) {
     __extends(Lark, _super);
@@ -15637,7 +15627,6 @@ var Lark = /** @class */ (function (_super) {
     };
     return Lark;
 }(Notify));
-//# sourceMappingURL=lark.js.map
 
 var Slack = /** @class */ (function (_super) {
     __extends(Slack, _super);
@@ -15652,7 +15641,6 @@ var Slack = /** @class */ (function (_super) {
     };
     return Slack;
 }(Notify));
-//# sourceMappingURL=slask.js.map
 
 var Telegram = /** @class */ (function (_super) {
     __extends(Telegram, _super);
@@ -15667,24 +15655,36 @@ var Telegram = /** @class */ (function (_super) {
     };
     return Telegram;
 }(Notify));
-//# sourceMappingURL=telegram.js.map
+
+var Custom = /** @class */ (function (_super) {
+    __extends(Custom, _super);
+    function Custom(webhook, githubCtx, options) {
+        return _super.call(this, webhook, githubCtx, options) || this;
+    }
+    Custom.prototype.notify = function () {
+        throw new Error('Method not implemented.');
+    };
+    Custom.prototype.genSin = function (signKey, timestamp) {
+        return 'Please generate signatue yourself';
+    };
+    return Custom;
+}(Notify));
 
 var Plat = {
     Lark: Lark,
     Slack: Slack,
-    Telegram: Telegram
+    Telegram: Telegram,
+    Custom: Custom,
 };
-//# sourceMappingURL=index.js.map
 
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var type, selfNotify, notifyTitle, notifyMessage, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, msg, notifyFn, error_1, res, error_2;
+        var type, notifyTitle, notifyMessage, _a, NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, _b, sourceDir, notify, msg, notifyFn, error_1, res, error_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _c.trys.push([0, 8, , 9]);
                     type = core$1.getInput('plat_type');
-                    selfNotify = core$1.getInput('self_notify');
                     notifyTitle = core$1.getInput('notify_title') || 'Project Update';
                     notifyMessage = core$1.getInput('notify_message');
                     _a = process.env, NOTIFY_WEBHOOK = _a.NOTIFY_WEBHOOK, NOTIFY_SIGNKEY = _a.NOTIFY_SIGNKEY, _b = _a.GITHUB_WORKSPACE, sourceDir = _b === void 0 ? '' : _b;
@@ -15698,7 +15698,7 @@ function run() {
                         signKey: NOTIFY_SIGNKEY,
                     });
                     msg = void 0;
-                    if (!(selfNotify === 'true')) return [3 /*break*/, 5];
+                    if (!(type === 'Custom')) return [3 /*break*/, 5];
                     _c.label = 1;
                 case 1:
                     _c.trys.push([1, 3, , 4]);
@@ -15718,7 +15718,7 @@ function run() {
                     msg = "code: " + res.code + ", msg: " + res.msg;
                     _c.label = 7;
                 case 7:
-                    core$1.setOutput('msg', msg);
+                    core$1.setOutput('msg', "" + (new Date() + ': ' + msg));
                     return [3 /*break*/, 9];
                 case 8:
                     error_2 = _c.sent();
@@ -15730,5 +15730,4 @@ function run() {
     });
 }
 void run();
-//# sourceMappingURL=index.js.map
 //# sourceMappingURL=actions.notify.esm.js.map

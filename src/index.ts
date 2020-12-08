@@ -7,7 +7,6 @@ import Plat from './plat'
 async function run() {
   try {
     const type = core.getInput('plat_type')
-    const selfNotify = core.getInput('self_notify')
     const notifyTitle = core.getInput('notify_title') || 'Project Update'
     const notifyMessage = core.getInput('notify_message')
     const { NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, GITHUB_WORKSPACE: sourceDir = '' } = process.env
@@ -26,7 +25,7 @@ async function run() {
     })
 
     let msg
-    if (selfNotify === 'true') {
+    if (type === 'Custom') {
       try {
         const notifyFn = require(path.join(sourceDir, '.echo.actions.notify.js'))
         msg = await notifyFn.call(notify, github.context, process.env, axios, core)
@@ -39,7 +38,7 @@ async function run() {
       msg = `code: ${res.code}, msg: ${res.msg}`
     }
 
-    core.setOutput('msg', msg)
+    core.setOutput('msg', `${new Date() + ': ' + msg}`)
   } catch (error) {
     core.setFailed(error)
   }

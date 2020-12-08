@@ -27,7 +27,6 @@ jobs:
       uses: echoings/actions.notify@v3.1
       with:
         plat_type: 'Lark'
-        self_notify: 'false'
         notify_title: 'Project Updated'
         notify_message: 'Project updated, please check projects online status'
       env:
@@ -37,12 +36,11 @@ jobs:
 
 1. Create `NOTIFY_WEBHOOK` and `NOTIFY_SIGNKEY` secret using [GitHub Action's Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository). And you can generate the value from the platform you are using.
 
-
 ## Advanced
 
 > What if notify format is not suitable for your case?
 
-Create a `.echo.actions.notify.js` file in your root project, which is export a async function definition as follow, and set `self_notify` to `true` then **You can handle notify yourself**
+Create a `.echo.actions.notify.js` file in your root project, which is export an async function definition as follow, and set `plat_type` to `Custom` then **You can handle notify yourself**
 
 ```javascript
 module.exports = async function notify(
@@ -63,4 +61,4 @@ module.exports = async function notify(
 
 ## Issues
 
-Lark's signature cheking still has problem, and I don't know why yet. so try not to open signature checking.
++ Lark's signature cheking still has problem, and I don't know why yet. so try not to open signature checking.
