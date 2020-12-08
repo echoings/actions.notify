@@ -1,6 +1,6 @@
 # actions.notify (WIP)
 
-A [GitHub Action](https://github.com/features/actions) to send a message to to IM（Lark(飞书), Slack, Telegram）. Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
+A [GitHub Action](https://github.com/features/actions) to send a message to IM（Lark(飞书), Slack, Telegram）. Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
 
 ## **Screenshot**
 ### Lark (飞书)
