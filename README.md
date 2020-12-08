@@ -1,6 +1,6 @@
 # actions.notify (WIP)
 
-A [GitHub Action](https://github.com/features/actions) to send a message to IM（Lark(飞书), Slack, Telegram）. Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
+A [GitHub Action](https://github.com/features/actions) to send a message to IM（Lark(飞书), Slack, Telegram). Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
 
 ## **Screenshot**
 ### Lark (飞书)
@@ -38,11 +38,11 @@ jobs:
 
 ## Advanced
 
-> What if notify format is not suitable for your case?
+> What if notify format is not suitable for your case or your using platform not included?
 
 Create a `.echo.actions.notify.js` file in your root project, which is export an async function definition as follow, and set `plat_type` to `Custom` then **You can handle notify yourself**
 
-```javascript
+```Typescript
 module.exports = async function notify(
   ctx: github.context (@actions/github),
   envs: process.env,
@@ -50,7 +50,8 @@ module.exports = async function notify(
   core: @actions/core
 ): {
   code: number,
-  msg: 'console message'
+  data: any,
+  msg: string
 }
 ```
 
@@ -60,5 +61,5 @@ module.exports = async function notify(
 - [ ] Telegram
 
 ## Issues
-
-+ Lark's signature cheking still has problem, and I don't know why yet. so try not to open signature checking.
++ Q: Lark's signature cheking still has problem, and I don't know why yet. so try not to open signature checking.
++ A: WIP
