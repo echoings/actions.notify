@@ -40,6 +40,7 @@ async function run() {
           notify,
           {
             envs: process.env,
+            ctx: github.context,
           },
           {
             axios,

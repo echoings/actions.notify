@@ -4,12 +4,12 @@ import CryptoJs from 'crypto-js';
 import Notify, { Context, Res } from './notify';
 
 export default class Lark extends Notify {
-  constructor(webhook: string, githubCtx: Context, options: any) {
-    super(webhook, githubCtx, options);
+  constructor(webhook: string, githubCtx: Context, inputs: any) {
+    super(webhook, githubCtx, inputs);
   }
 
   async notify(): Promise<Res> {
-    const { ctxFormatContent, timestamp, signature: sign, options } = this;
+    const { ctxFormatContent, timestamp, signature: sign, inputs } = this;
 
     const requestPayload = {
       timestamp,
@@ -22,7 +22,7 @@ export default class Lark extends Notify {
         },
         header: {
           title: {
-            content: `${options.notifyTitle}`,
+            content: `${inputs.notifyTitle}`,
             tag: 'plain_text',
           },
           template: 'red',
@@ -45,9 +45,7 @@ export default class Lark extends Notify {
           {
             tag: 'div',
             text: {
-              content: `**Message**，\n ${
-                options.notifyMessage || ctxFormatContent.commitsContent
-              }`,
+              content: `**Message**，\n ${inputs.notifyMessage || ctxFormatContent.commitsContent}`,
               tag: 'lark_md',
             },
           },

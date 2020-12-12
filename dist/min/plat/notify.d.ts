@@ -4,10 +4,10 @@ export default abstract class Notify {
     signature: string | undefined;
     webhook: string;
     ctxFormatContent: any;
-    options: any;
+    inputs: any;
     timestamp: string;
     githubCtx: Context;
-    constructor(webhook: string, githubCtx: Context, options: any);
+    constructor(webhook: string, githubCtx: Context, inputs: any);
     init(ctx?: Context): void;
     abstract notify(): any;
     abstract genSin(signKey: string | undefined, timestamp: string): string;

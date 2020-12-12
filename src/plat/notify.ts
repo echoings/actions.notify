@@ -5,14 +5,14 @@ export default abstract class Notify {
   signature: string | undefined;
   webhook: string;
   ctxFormatContent: any;
-  options: any;
+  inputs: any;
   timestamp: string = new Date().getTime().toString();
   githubCtx: Context;
-  constructor(webhook: string, githubCtx: Context, options: any) {
+  constructor(webhook: string, githubCtx: Context, inputs: any) {
     this.webhook = webhook;
     this.githubCtx = githubCtx;
-    this.options = options;
-    this.signKey = options.signKey;
+    this.inputs = inputs;
+    this.signKey = inputs.signKey;
     this.init(githubCtx);
   }
 
