@@ -34,11 +34,11 @@ jobs:
         NOTIFY_SIGNKEY: ${{ secrets.NOTIFY_SIGNKEY }}
 ```
 
-1. Create `NOTIFY_WEBHOOK` and `NOTIFY_SIGNKEY` secret using [GitHub Action's Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository). And you can generate the value from the platform you are using.
+3. Create `NOTIFY_WEBHOOK` and `NOTIFY_SIGNKEY` secret using [GitHub Action's Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository). And you can generate the value from the platform you are using.
 
 ## Advanced
 
-> What if notify format is not suitable for your case or your using platform not included?
+> What if notify format is not suitable for your case or your using platform isn't included?
 
 Create a `.echo.actions.notify.js` file in your root project, and export an async function which's definition as follow, and set `plat_type` to `Custom` then **You can handle notify yourself**
 
