@@ -18,4 +18,4 @@ outputs:
     description: 'The msg and code we sended to you'
 runs:
   using: 'node12'
-  main: './dist/main/index.js'
+  main: './dist/min/index.js'
