@@ -1,6 +1,6 @@
 import Notify, { Context, Res } from './notify';
 
-export default class Telegram extends Notify {
+export default class Custom extends Notify {
   constructor(webhook: string, githubCtx: Context, options: any) {
     super(webhook, githubCtx, options);
   }
@@ -8,6 +8,6 @@ export default class Telegram extends Notify {
     throw new Error('Method not implemented.');
   }
   genSin(_signKey: string | undefined, _timestamp: string): string {
-    throw new Error('Method not implemented.');
+    return 'Please generate signatue yourself';
   }
 }

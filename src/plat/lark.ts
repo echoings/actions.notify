@@ -1,23 +1,19 @@
-import axios from 'axios'
-import HmacSHA256 from 'crypto-js/hmac-sha256'
-import Notify, { Context, Res } from './notify'
+import axios from 'axios';
+import CryptoJs from 'crypto-js';
+
+import Notify, { Context, Res } from './notify';
 
 export default class Lark extends Notify {
-  constructor(webhook: string, githubCtx: Context , signKey?: string) {
-    super(webhook, githubCtx, signKey)
+  constructor(webhook: string, githubCtx: Context, options: any) {
+    super(webhook, githubCtx, options);
   }
 
   async notify(): Promise<Res> {
-    const {
-      options,
-      timestamp,
-      signature,
-      githubCtx: ctx,
-    } = this;
+    const { ctxFormatContent, timestamp, signature: sign, options } = this;
 
     const requestPayload = {
       timestamp,
-      signature,
+      sign,
       msg_type: 'interactive',
       card: {
         config: {
@@ -26,7 +22,7 @@ export default class Lark extends Notify {
         },
         header: {
           title: {
-            content: '项目更新',
+            content: `${options.notifyTitle}`,
             tag: 'plain_text',
           },
           template: 'red',
@@ -35,21 +31,23 @@ export default class Lark extends Notify {
           {
             tag: 'div',
             text: {
-              content: `**Author** ${options.actor}`,
+              content: `**Author** ${ctxFormatContent.actor}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Ref** ${options.ref}  **Event** ${options.eventName}`,
+              content: `**Ref** ${ctxFormatContent.ref}  **Event** ${ctxFormatContent.eventName}`,
               tag: 'lark_md',
             },
           },
           {
             tag: 'div',
             text: {
-              content: `**Message**，\n ${options.commitsContent}`,
+              content: `**Message**，\n ${
+                options.notifyMessage || ctxFormatContent.commitsContent
+              }`,
               tag: 'lark_md',
             },
           },
@@ -58,10 +56,10 @@ export default class Lark extends Notify {
               {
                 tag: 'button',
                 text: {
-                  content: '更多部署信息 :玫瑰:',
+                  content: 'More Information :玫瑰:',
                   tag: 'lark_md',
                 },
-                url: `${options.actionUrl}`,
+                url: `${ctxFormatContent.actionUrl}`,
                 type: 'default',
                 value: {},
               },
@@ -70,25 +68,25 @@ export default class Lark extends Notify {
           },
         ],
       },
-    }
+    };
 
     const res: any = await axios({
       method: 'post',
       url: this.webhook,
       data: requestPayload,
-    })
+    });
 
     return {
       code: res.code || res.data.StatusCode,
       data: res.data,
       msg: res.msg,
-    }
+    };
   }
 
   genSin(signKey: string | undefined = this.signKey, timestamp: string): string {
-    const crytoStr = `${timestamp}\n${this.signKey}`
-    const signature = HmacSHA256(this.signKey || '', crytoStr).toString()
+    const crytoStr = `${timestamp}\n${signKey}`;
+    const signature = CryptoJs.enc.Base64.stringify(CryptoJs.HmacSHA256('', crytoStr));
 
-    return Buffer.from(signature).toString('base64')
+    return signature;
   }
 }

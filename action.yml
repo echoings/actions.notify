@@ -1,22 +1,21 @@
-name: 'Notify to bot'
-description: 'notify to your social plat'
+name: 'IM Notification'
+description: 'Notify to your social platform'
 inputs:
-  NOTIFY_TYPE: 
-    description: 'Which platform to notify'
+  plat_type: 
+    description: 'Which social platform to notify'
     required: true
     default: 'Lark'
-  NOTIFY_WEBHOOK: 
-    description: 'Bot webhook url'
-    required: true
-    default: ''
-  NOTIFY_SIGNKEY:
-    description: 'Secrect key if needed'
+  notify_title:
+    description: 'It will use as the head title of the notification.'
+    required: false
+    default: 'Project Updated'
+  notify_message:
+    description: 'It will use as the content of the notification.'
     required: false
     default: ''
-    
-# outputs:
-#   res: # id of output
-#     description: 'The result we greeted you'
+outputs:
+  msg: # id of output
+    description: 'The msg and code we sended to you'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: './dist/main/index.js'
