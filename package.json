@@ -1,7 +1,7 @@
 {
   "name": "actions.notify",
   "version": "0.0.1",
-  "description": "DIY your github actions",
+  "description": "Notify changes to your IM",
   "main": "dist/main/index.js",
   "typings": "dist/main/index.d.ts",
   "module": "dist/module/index.js",
@@ -34,6 +34,7 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json dist/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
     "commit": "git-cz",
+    "version": "changeset",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
     "prepare-release": "run-s reset-hard test cov doc:html version doc:publish"
   },
