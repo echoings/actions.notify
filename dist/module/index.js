@@ -30,7 +30,7 @@ async function run() {
                 const notifyFn = require(path.join(sourceDir, '.echo.actions.notify.js'));
                 msg = await notifyFn.call(notify, {
                     envs: process.env,
-                    ctx: github.context
+                    ctx: github.context,
                 }, {
                     axios,
                     core,

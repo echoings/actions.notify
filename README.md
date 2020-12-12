@@ -1,4 +1,4 @@
-# actions.notify (WIP)
+# actions.notify
 
 A [GitHub Action](https://github.com/features/actions) to send a message to IM（Lark(飞书), Slack, Telegram). Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
 
@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v3.3
+      uses: echoings/actions.notify@v3.2.1
       with:
         plat_type: 'Lark'
         notify_title: 'Project Updated'
