@@ -9,6 +9,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
+    "exp": "echo 'hello world'",
     "dev": "yarn watch:build",
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",

@@ -17,5 +17,5 @@ outputs:
   msg: # id of output
     description: 'The msg and code we sended to you'
 runs:
-  using: 'node12'
-  main: './dist/min/index.js'
+  using: 'docker'
+  image: 'Dockerfile'

@@ -6,6 +6,7 @@ src/**.js
 node_modules
 coverage
 build
+dist
 
 # local env files
 .env.local
