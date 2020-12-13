@@ -15,8 +15,11 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN npm run test
+RUN npm run exp
 RUN npm run build
 RUN ls -al
+
+RUN echo 'success, well done'
+CMD [ "node", "./dist/min/index.js" ]
 # EXPOSE 8080
 # CMD [ "node", "server.js" ]
