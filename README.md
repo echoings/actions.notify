@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Notify to IM
-      uses: echoings/actions.notify@v3.2.1
+      uses: echoings/actions.notify@v0.1.0
       with:
         plat_type: 'Lark'
         notify_title: 'Project Updated'
@@ -49,15 +49,9 @@ module.exports = async function notify(
     ctx: github.context
   },
   utils: {
-    core: '@actions/core';
-    github: '@actions/github';
-    exec: '@actions/exec';
-    cache: '@actions/cache';
-    artifact: '@actions/artifact';
-    glob: '@actions/glob';
-    io: '@actions/io';
-    toolCache: '@actions/tool-cache';
-    axios: 'axios';
+    axios: 'axios',
+    core: '@actions/core',
+    github: '@actions/github'
   }
 ): {
   code: number,

@@ -1,16 +1,19 @@
 name: 'IM Notification'
-description: 'Notify to your social platform'
+description: 'Sending a message to your social platform'
+branding:
+  icon: send
+  color: orange
 inputs:
   plat_type: 
     description: 'Which social platform to notify'
     required: true
     default: 'Lark'
   notify_title:
-    description: 'It will use as the head title of the notification.'
+    description: 'It will be used as the head title of the notification.'
     required: false
     default: 'Project Updated'
   notify_message:
-    description: 'It will use as the content of the notification.'
+    description: 'It will be used as the content of the notification.'
     required: false
     default: ''
 outputs:
