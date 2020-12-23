@@ -93,6 +93,8 @@
   "files": [
     "dist/main",
     "dist/module",
+    "dist/min",
+    "dist/types",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
