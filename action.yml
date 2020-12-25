@@ -1,4 +1,4 @@
-name: 'IM Notification'
+name: 'Notify (Lark, Slack, Telegram)'
 description: 'Sending a message to your social platform'
 branding:
   icon: send

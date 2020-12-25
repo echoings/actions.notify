@@ -7,7 +7,4 @@ export default class Slack extends Notify {
   notify(): Promise<Res> {
     throw new Error('Method not implemented.');
   }
-  genSin(_signKey: string | undefined, _timestamp: string): string {
-    throw new Error('Method not implemented.');
-  }
 }

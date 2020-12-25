@@ -4,15 +4,25 @@ import CryptoJs from 'crypto-js';
 import Notify, { Context, Res } from './notify';
 
 export default class Lark extends Notify {
+  signKey: string | undefined;
+  signature: string | undefined;
+  timestamp: string = new Date().getTime().toString();
   constructor(webhook: string, githubCtx: Context, inputs: any) {
     super(webhook, githubCtx, inputs);
+    this.signKey = inputs.signKey;
   }
 
   async notify(): Promise<Res> {
-    const { ctxFormatContent, timestamp, signature: sign, inputs } = this;
+    this.timestamp = new Date().getTime().toString();
+
+    if (this.signKey) {
+      this.signature = this.genSin(this.signKey, this.timestamp);
+    }
+
+    const { ctxFormatContent, signature: sign, inputs } = this;
 
     const requestPayload = {
-      timestamp,
+      timestamp: this.timestamp,
       sign,
       msg_type: 'interactive',
       card: {
