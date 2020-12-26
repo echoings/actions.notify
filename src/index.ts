@@ -10,7 +10,7 @@ import * as io from '@actions/io';
 import * as toolCache from '@actions/tool-cache';
 import axios from 'axios';
 
-import Plat from './plat';
+import Plat, { Publish } from './plat';
 
 async function run() {
   try {
@@ -26,18 +26,25 @@ async function run() {
       return;
     }
 
-    const notify = new Plat[type](NOTIFY_WEBHOOK, github.context, {
-      notifyTitle,
-      notifyMessage,
-      signKey: NOTIFY_SIGNKEY,
+    const Pub = new Publish();
+    const sub: { [index: string]: any } = {};
+    type.split(',').forEach(v => {
+      const subscribe = new Plat[type](NOTIFY_WEBHOOK, github.context, {
+        notifyTitle,
+        notifyMessage,
+        signKey: NOTIFY_SIGNKEY,
+      });
+
+      sub[v] = subscribe;
+      Pub.on(v, subscribe.notify);
     });
 
-    let msg;
+    let msg = '';
     if (type === 'Custom') {
       try {
         const notifyFn = require(path.join(sourceDir, '.echo.actions.notify.js'));
         msg = await notifyFn.call(
-          notify,
+          sub,
           {
             envs: process.env,
             ctx: github.context,
@@ -58,9 +65,11 @@ async function run() {
         core.setFailed(error);
       }
     } else {
-      const res = await notify.notify();
+      const res = await Pub.notify();
 
-      msg = `code: ${res.code}, msg: ${res.msg}`;
+      res.forEach((v: any) => {
+        msg += `type: ${v.type}, code: ${v.code}, msg: ${v.msg}\n`;
+      });
     }
 
     core.setOutput('msg', `${new Date() + ': ' + msg}`);

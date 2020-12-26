@@ -1,4 +1,5 @@
 import Custom from './custom';
+import Pub from './event-bus';
 import Lark from './lark';
 import Slack from './slask';
 import Telegram from './telegram';
@@ -13,3 +14,4 @@ const Plat: {
 };
 
 export default Plat;
+export const Publish = Pub;
