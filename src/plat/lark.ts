@@ -87,6 +87,7 @@ export default class Lark extends Notify {
     const enableImage = core.getInput('enable_image');
     const imageInfo: any = {};
     enableImage.split('\n').forEach(v => {
+      console.log('item', v);
       const map = v.split('=');
       if (map[1]) {
         imageInfo[map[0]] = map[1];
@@ -97,7 +98,7 @@ export default class Lark extends Notify {
 
     let image_key = '';
     const { url, title } = imageInfo;
-    console.info('uuuuuuu: ', url, title, imageInfo);
+    console.info('uuuuuuu: ', enableImage.split('\n'), url, title, imageInfo);
     if (imageInfo['enable'] === 'true' && url) {
       console.info('weeee');
       image_key = await this.uploadLocalFile(url);
