@@ -39,7 +39,16 @@ jobs:
 ## Advanced
 
 > What if notify format is not suitable for your case or your using platform isn't included?
+1. use enable_image args, set it to 
+  enable=true
+  url='local image path'
+  title='use to alt image info'
 
+2. you need to create your own business application to get app_id and app_secret, and set them as github secrect:
+  LARK_APP_ID: app_id,
+  LARK_APP_SECRECT: app_secret
+   
+  
 Create a `.echo.actions.notify.js` file in your root project, and export an async function which's definition as follow, and set `plat_type` to `Custom` then **You can handle notify yourself**
 
 ```Typescript

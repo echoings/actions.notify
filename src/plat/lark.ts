@@ -90,7 +90,6 @@ export default class Lark extends Notify {
       .replace(/\n/, '')
       .split(' ')
       .forEach(v => {
-        console.log('item', v);
         const map = v.split('=');
         if (map[1]) {
           imageInfo[map[0]] = map[1];
@@ -101,9 +100,7 @@ export default class Lark extends Notify {
 
     let image_key = '';
     const { url, title } = imageInfo;
-    console.info('uuuuuuu: ', enableImage, enableImage.split('\n'), url, title, imageInfo);
     if (imageInfo['enable'] === 'true' && url) {
-      console.info('weeee');
       image_key = await this.uploadLocalFile(url);
     }
 
@@ -187,8 +184,6 @@ export default class Lark extends Notify {
       };
       requestPayload.card.elements.splice(2, 0, temp);
     }
-
-    console.info(requestPayload, image_key);
 
     const res: any = await axios({
       method: 'post',
