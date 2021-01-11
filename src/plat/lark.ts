@@ -99,8 +99,10 @@ export default class Lark extends Notify {
       });
 
     let image_key = '';
-    const { url, title } = imageInfo;
-    if (imageInfo['enable'] === 'true' && url) {
+    const { url = '', title } = imageInfo;
+
+    const existsPic = await fs.pathExists(url);
+    if (imageInfo['enable'] === 'true' && existsPic) {
       image_key = await this.uploadLocalFile(url);
     }
 
