@@ -97,7 +97,9 @@ export default class Lark extends Notify {
 
     let image_key = '';
     const { url, title } = imageInfo;
+    console.info('uuuuuuu: ', url, title, imageInfo);
     if (imageInfo['enable'] === 'true' && url) {
+      console.info('weeee');
       image_key = await this.uploadLocalFile(url);
     }
 
@@ -181,6 +183,8 @@ export default class Lark extends Notify {
       };
       requestPayload.card.elements.splice(2, 0, temp);
     }
+
+    console.info(requestPayload, image_key);
 
     const res: any = await axios({
       method: 'post',
