@@ -60,6 +60,10 @@ module.exports = async function notify(
 }
 ```
 `Tips: ` If you need more extra dependency package, please do and use [ncc](https://github.com/vercel/ncc#readme) to bundle them together.
+
+## For Lark
+> what if you want to send a image as content?
+
 ## Support
 - [x] Lark (飞书)
 - [ ] Slack
