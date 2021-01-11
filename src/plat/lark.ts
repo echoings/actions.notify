@@ -53,6 +53,9 @@ export default class Lark extends Notify {
       return uploadRes.data.data.image_key;
     }
 
+    console.log(uploadRes);
+    core.setFailed(`upload faild`);
+
     return '';
   }
 
@@ -79,6 +82,8 @@ export default class Lark extends Notify {
       core.setFailed('get tenant_access_token error, please check');
       return '';
     }
+
+    console.log(res, tenant_access_token);
 
     return tenant_access_token;
   }
