@@ -179,7 +179,7 @@ export default class Lark extends Notify {
         img_key: `${image_key}`,
         alt: {
           tag: 'plain_text',
-          content: `**${title || '预览二维码'}**`,
+          content: `${title || '预览二维码'}`,
         },
       };
       requestPayload.card.elements.splice(2, 0, temp);
