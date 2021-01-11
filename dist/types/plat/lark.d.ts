@@ -4,6 +4,8 @@ export default class Lark extends Notify {
     signature: string | undefined;
     timestamp: string;
     constructor(webhook: string, githubCtx: Context, inputs: any);
+    uploadLocalFile(): Promise<string>;
+    getAccessToken(LARK_APP_ID: string, LARK_APP_SECRECT: string): Promise<string>;
     notify(): Promise<Res>;
     genSin(signKey: string | undefined, timestamp: string): string;
 }
