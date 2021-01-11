@@ -26,6 +26,10 @@ inputs:
   enable_image:
     description: 'support to upload image and use it to notify'
     required: false
+    default: 
+      enable=true
+      url=''
+      title=''
 outputs:
   msg: # id of output
     description: 'The msg and code we sended to you'

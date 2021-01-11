@@ -15,13 +15,11 @@ export default class Lark extends Notify {
     this.signKey = inputs.signKey;
   }
 
-  async uploadLocalFile(): Promise<string> {
-    const { LARK_APP_ID = '', LARK_APP_SECRECT = '', LARK_PREVIEW_PIC_DIR = '' } = process.env;
+  async uploadLocalFile(url: string): Promise<string> {
+    const { LARK_APP_ID = '', LARK_APP_SECRECT = '' } = process.env;
 
-    if (!(LARK_PREVIEW_PIC_DIR && LARK_APP_ID && LARK_APP_SECRECT)) {
-      core.setFailed(
-        `Action failed with error missing onf of [LARK_PREVIEW_PIC_DIR, LARK_APP_ID, LARK_APP_SECRECT]`,
-      );
+    if (!(LARK_APP_ID && LARK_APP_SECRECT)) {
+      core.setFailed(`Action failed with error missing onf of [LARK_APP_ID, LARK_APP_SECRECT]`);
 
       return '';
     }
@@ -30,7 +28,7 @@ export default class Lark extends Notify {
     if (!tenant_access_token) return '';
 
     const form_data = new FormData();
-    form_data.append('image', fs.createReadStream(LARK_PREVIEW_PIC_DIR));
+    form_data.append('image', fs.createReadStream(url));
     form_data.append('image_type', 'message');
 
     const headers = {
@@ -49,7 +47,6 @@ export default class Lark extends Notify {
 
     const uploadRes = await axios.request(request_config);
 
-    console.log(uploadRes);
     if (uploadRes.status === 200 && uploadRes.data && uploadRes.data.code === 0) {
       return uploadRes.data.data.image_key;
     }
@@ -83,20 +80,26 @@ export default class Lark extends Notify {
       return '';
     }
 
-    console.log(res, tenant_access_token);
-
     return tenant_access_token;
   }
 
   async notify(): Promise<Res> {
     const enableImage = core.getInput('enable_image');
+    const imageInfo: any = {};
+    enableImage.split('\n').forEach(v => {
+      const map = v.split('=');
+      if (map[1]) {
+        imageInfo[map[0]] = map[1];
+      } else {
+        imageInfo[map[0]] = true;
+      }
+    });
 
     let image_key = '';
-    if (enableImage) {
-      image_key = await this.uploadLocalFile();
+    const { url, title } = imageInfo;
+    if (imageInfo['enable'] === 'true' && url) {
+      image_key = await this.uploadLocalFile(url);
     }
-
-    console.log('iiimage ', image_key);
 
     this.timestamp = new Date().getTime().toString();
     if (this.signKey) {
@@ -144,19 +147,6 @@ export default class Lark extends Notify {
             },
           },
           {
-            tag: 'img',
-            title: {
-              tag: 'lark_md',
-              content: '开发预览二维码',
-            },
-            mode: 'crop_center',
-            img_key: `${image_key}`,
-            alt: {
-              tag: 'plain_text',
-              content: '开发预览二维码',
-            },
-          },
-          {
             actions: [
               {
                 tag: 'button',
@@ -175,13 +165,28 @@ export default class Lark extends Notify {
       },
     };
 
+    if (image_key) {
+      const temp: any = {
+        tag: 'img',
+        title: {
+          tag: 'lark_md',
+          content: `**${title || '预览二维码'}**`,
+        },
+        mode: 'crop_center',
+        img_key: `${image_key}`,
+        alt: {
+          tag: 'plain_text',
+          content: `**${title || '预览二维码'}**`,
+        },
+      };
+      requestPayload.card.elements.splice(2, 0, temp);
+    }
+
     const res: any = await axios({
       method: 'post',
       url: this.webhook,
       data: requestPayload,
     });
-
-    console.log('final: ', res);
 
     return {
       code: res.code || res.data.StatusCode,
