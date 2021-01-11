@@ -49,11 +49,11 @@ export default class Lark extends Notify {
 
     const uploadRes = await axios.request(request_config);
 
+    console.log(uploadRes);
     if (uploadRes.status === 200 && uploadRes.data && uploadRes.data.code === 0) {
       return uploadRes.data.data.image_key;
     }
 
-    console.log(uploadRes);
     core.setFailed(`upload faild`);
 
     return '';
@@ -95,6 +95,8 @@ export default class Lark extends Notify {
     if (enableImage) {
       image_key = await this.uploadLocalFile();
     }
+
+    console.log('iiimage ', image_key);
 
     this.timestamp = new Date().getTime().toString();
     if (this.signKey) {
@@ -178,6 +180,8 @@ export default class Lark extends Notify {
       url: this.webhook,
       data: requestPayload,
     });
+
+    console.log('final: ', res);
 
     return {
       code: res.code || res.data.StatusCode,
