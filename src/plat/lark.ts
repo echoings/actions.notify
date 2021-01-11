@@ -84,7 +84,7 @@ export default class Lark extends Notify {
   }
 
   async notify(): Promise<Res> {
-    const enableImage = core.getInput('enableImage');
+    const enableImage = core.getInput('enable_image');
 
     let image_key = '';
     if (enableImage) {

@@ -23,7 +23,7 @@ inputs:
   #   required: false
   #   default: ''
   # lark special input
-  enableImage:
+  enable_image:
     description: 'support to upload image and use it to notify'
     required: false
 outputs:
