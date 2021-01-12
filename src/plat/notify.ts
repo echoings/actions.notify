@@ -1,27 +1,18 @@
 import { Context } from '@actions/github/lib/context';
 
 export default abstract class Notify {
-  signKey: string | undefined;
-  signature: string | undefined;
   webhook: string;
   ctxFormatContent: any;
   inputs: any;
-  timestamp: string = new Date().getTime().toString();
   githubCtx: Context;
   constructor(webhook: string, githubCtx: Context, inputs: any) {
     this.webhook = webhook;
     this.githubCtx = githubCtx;
     this.inputs = inputs;
-    this.signKey = inputs.signKey;
     this.init(githubCtx);
   }
 
   init(ctx: Context = this.githubCtx) {
-    this.timestamp = new Date().getTime().toString();
-
-    if (this.signKey) {
-      this.signature = this.genSin(this.signKey, this.timestamp);
-    }
     const { ref, actor, workflow, eventName, sha, payload } = ctx;
     const { commits = [], comment, repository } = payload;
 
@@ -45,8 +36,7 @@ export default abstract class Notify {
   }
 
   abstract notify(): any;
-
-  abstract genSin(signKey: string | undefined, timestamp: string): string;
+  abstract notifyFailure(): any;
 }
 
 interface Res {

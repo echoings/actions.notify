@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const custom_1 = __importDefault(require("./custom"));
 const lark_1 = __importDefault(require("./lark"));
-const slask_1 = __importDefault(require("./slask"));
+const slack_1 = __importDefault(require("./slack"));
 const telegram_1 = __importDefault(require("./telegram"));
 const Plat = {
     Lark: lark_1.default,
-    Slack: slask_1.default,
+    Slack: slack_1.default,
     Telegram: telegram_1.default,
     Custom: custom_1.default,
 };

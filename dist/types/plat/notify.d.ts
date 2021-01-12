@@ -1,16 +1,13 @@
 import { Context } from '@actions/github/lib/context';
 export default abstract class Notify {
-    signKey: string | undefined;
-    signature: string | undefined;
     webhook: string;
     ctxFormatContent: any;
     inputs: any;
-    timestamp: string;
     githubCtx: Context;
     constructor(webhook: string, githubCtx: Context, inputs: any);
     init(ctx?: Context): void;
     abstract notify(): any;
-    abstract genSin(signKey: string | undefined, timestamp: string): string;
+    abstract notifyFailure(): any;
 }
 interface Res {
     code: number;

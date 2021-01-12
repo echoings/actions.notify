@@ -51,7 +51,9 @@
     "@actions/io": "^1.0.2",
     "@actions/tool-cache": "^1.6.1",
     "axios": "^0.21.0",
-    "crypto-js": "^4.0.0"
+    "crypto-js": "^4.0.0",
+    "form-data": "^3.0.0",
+    "fs-extra": "^9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -61,6 +63,8 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@types/crypto-js": "^4.0.1",
+    "@types/form-data": "^2.5.0",
+    "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.19",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",

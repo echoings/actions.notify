@@ -7,7 +7,7 @@ export default class Custom extends Notify {
   notify(): Promise<Res> {
     throw new Error('Method not implemented.');
   }
-  genSin(_signKey: string | undefined, _timestamp: string): string {
-    return 'Please generate signatue yourself';
+  async notifyFailure(): Promise<string> {
+    return '';
   }
 }

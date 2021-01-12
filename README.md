@@ -32,6 +32,9 @@ jobs:
       env:
         NOTIFY_WEBHOOK: ${{ secrets.NOTIFY_WEBHOOK }}
         NOTIFY_SIGNKEY: ${{ secrets.NOTIFY_SIGNKEY }}
+        # for Lark use
+        LARK_APP_ID: ${{ secrets.LARK_APP_ID }}
+        LARK_APP_SECRECT: ${{ secrets.LARK_APP_SECRECT }}
 ```
 
 3. Create `NOTIFY_WEBHOOK` and `NOTIFY_SIGNKEY` secret using [GitHub Action's Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository). And you can generate the value from the platform you are using.
@@ -60,6 +63,21 @@ module.exports = async function notify(
 }
 ```
 `Tips: ` If you need more extra dependency package, please do and use [ncc](https://github.com/vercel/ncc#readme) to bundle them together.
+
+## For Lark
+> what if you want to send a image as content?
+1. use *enable_image* args, set it to
+```yaml 
+  enable=true
+  url='local image path'
+  title='use to alt image info'
+```
+
+2. you need to create your own business application to get app_id and app_secret, and set them as github secrect and env values:
+```yaml
+  LARK_APP_ID: app_id,
+  LARK_APP_SECRECT: app_secret
+```
 ## Support
 - [x] Lark (飞书)
 - [ ] Slack

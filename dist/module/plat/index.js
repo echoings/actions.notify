@@ -1,6 +1,6 @@
 import Custom from './custom';
 import Lark from './lark';
-import Slack from './slask';
+import Slack from './slack';
 import Telegram from './telegram';
 const Plat = {
     Lark,
