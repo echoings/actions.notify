@@ -79,7 +79,7 @@ export default class Lark extends Notify {
             }
         });
         let image_key = '';
-        const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
+        const { url = '', title: imageTitle = "预览二维码" } = imageInfo;
         const existsPic = await fs.pathExists(url);
         if (imageInfo['enable'] === 'true' && existsPic) {
             image_key = await this.uploadLocalFile(url);
