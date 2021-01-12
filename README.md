@@ -42,16 +42,7 @@ jobs:
 ## Advanced
 
 > What if notify format is not suitable for your case or your using platform isn't included?
-1. use enable_image args, set it to 
-  enable=true
-  url='local image path'
-  title='use to alt image info'
 
-2. you need to create your own business application to get app_id and app_secret, and set them as github secrect and env values:
-  LARK_APP_ID: app_id,
-  LARK_APP_SECRECT: app_secret
-   
-  
 Create a `.echo.actions.notify.js` file in your root project, and export an async function which's definition as follow, and set `plat_type` to `Custom` then **You can handle notify yourself**
 
 ```Typescript
@@ -75,7 +66,18 @@ module.exports = async function notify(
 
 ## For Lark
 > what if you want to send a image as content?
+1. use *enable_image* args, set it to
+```yaml 
+  enable=true
+  url='local image path'
+  title='use to alt image info'
+```
 
+2. you need to create your own business application to get app_id and app_secret, and set them as github secrect and env values:
+```yaml
+  LARK_APP_ID: app_id,
+  LARK_APP_SECRECT: app_secret
+```
 ## Support
 - [x] Lark (飞书)
 - [ ] Slack

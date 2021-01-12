@@ -171,17 +171,18 @@ export default class Lark extends Notify {
     };
 
     if (image_key) {
+      const placeholder = '预览二维码';
       const temp: any = {
         tag: 'img',
         title: {
           tag: 'lark_md',
-          content: `**${title || '预览二维码'}**`,
+          content: `**${title || placeholder}**`,
         },
         mode: 'crop_center',
         img_key: `${image_key}`,
         alt: {
           tag: 'plain_text',
-          content: `${title || '预览二维码'}`,
+          content: `${title || placeholder}`,
         },
       };
       requestPayload.card.elements.splice(2, 0, temp);
