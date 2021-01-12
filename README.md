@@ -4,7 +4,7 @@ A [GitHub Action](https://github.com/features/actions) to send a message to IM�
 
 ## **Screenshot**
 ### Lark (飞书)
-![](https://cdn.jsdelivr.net/gh/echoings/un@l/assets/20201207094354.png)
+![](https://cdn.jsdelivr.net/gh/echoings/un@l/assets/20210112152617.png)
 
 ## Usage
 
