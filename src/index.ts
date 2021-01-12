@@ -66,7 +66,7 @@ async function run() {
     } else {
       let res: any = {};
 
-      if (JOB_FAILURE_STATUS) {
+      if (JOB_FAILURE_STATUS === 'failure') {
         res = await notify.notifyFailure();
       } else {
         res = await notify.notify();
