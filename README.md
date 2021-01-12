@@ -1,7 +1,5 @@
 # actions.notify
 
-通过Github action将项目部署信息通知给飞书，Slack，Telegram。
-
 A [GitHub Action](https://github.com/features/actions) to send a message to IM（Lark(飞书), Slack, Telegram). Inspired by [Slack Notify](https://github.com/marketplace/actions/slack-notify)
 
 ## **Screenshot**
@@ -37,8 +35,6 @@ jobs:
         # for Lark use
         LARK_APP_ID: ${{ secrets.LARK_APP_ID }}
         LARK_APP_SECRECT: ${{ secrets.LARK_APP_SECRECT }}
-        JOB_FAILURE_STATUS: ${{ job.status }}
-        JOB_FAILURE_STATUS_PIC: # image_key you get from lark upload image api response
 ```
 
 3. Create `NOTIFY_WEBHOOK` and `NOTIFY_SIGNKEY` secret using [GitHub Action's Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository). And you can generate the value from the platform you are using.
