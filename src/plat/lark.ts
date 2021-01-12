@@ -99,6 +99,7 @@ export default class Lark extends Notify {
       });
 
     let image_key = '';
+    console.log(imageInfo, enableImage);
     const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
 
     const existsPic = await fs.pathExists(url);
