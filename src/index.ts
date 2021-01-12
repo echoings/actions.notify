@@ -17,7 +17,12 @@ async function run() {
     const type = core.getInput('plat_type');
     const notifyTitle = core.getInput('notify_title') || 'Project Update';
     const notifyMessage = core.getInput('notify_message');
-    const { NOTIFY_WEBHOOK, NOTIFY_SIGNKEY, GITHUB_WORKSPACE: sourceDir = '' } = process.env;
+    const {
+      NOTIFY_WEBHOOK,
+      NOTIFY_SIGNKEY,
+      GITHUB_WORKSPACE: sourceDir = '',
+      JOB_FAILURE_STATUS,
+    } = process.env;
 
     if (!type || !NOTIFY_WEBHOOK) {
       core.setFailed(
@@ -41,6 +46,7 @@ async function run() {
           {
             envs: process.env,
             ctx: github.context,
+            jobsFailureStatus: JOB_FAILURE_STATUS,
           },
           {
             axios,
@@ -58,7 +64,13 @@ async function run() {
         core.setFailed(error);
       }
     } else {
-      const res = await notify.notify();
+      let res: any = {};
+
+      if (JOB_FAILURE_STATUS) {
+        res = await notify.notifyFailure();
+      } else {
+        res = await notify.notify();
+      }
 
       msg = `code: ${res.code}, msg: ${res.msg}`;
     }

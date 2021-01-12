@@ -36,6 +36,7 @@ export default abstract class Notify {
   }
 
   abstract notify(): any;
+  abstract notifyFailure(): any;
 }
 
 interface Res {

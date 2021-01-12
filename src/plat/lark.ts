@@ -99,7 +99,7 @@ export default class Lark extends Notify {
       });
 
     let image_key = '';
-    const { url = '', title } = imageInfo;
+    const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
 
     const existsPic = await fs.pathExists(url);
     if (imageInfo['enable'] === 'true' && existsPic) {
@@ -171,22 +171,108 @@ export default class Lark extends Notify {
     };
 
     if (image_key) {
-      const placeholder = '预览二维码';
       const temp: any = {
         tag: 'img',
         title: {
           tag: 'lark_md',
-          content: `**${title || placeholder}**`,
+          content: `**${imageTitle}**`,
         },
         mode: 'crop_center',
         img_key: `${image_key}`,
         alt: {
           tag: 'plain_text',
-          content: `${title || placeholder}`,
+          content: `${imageTitle}`,
         },
       };
       requestPayload.card.elements.splice(2, 0, temp);
     }
+
+    const res: any = await axios({
+      method: 'post',
+      url: this.webhook,
+      data: requestPayload,
+    });
+
+    return {
+      code: res.code || res.data.StatusCode,
+      data: res.data,
+      msg: res.msg,
+    };
+  }
+
+  async notifyFailure(): Promise<Res> {
+    const { ctxFormatContent, signature: sign, inputs } = this;
+    const { JOB_FAILURE_STATUS_PIC } = process.env;
+
+    const requestPayload = {
+      timestamp: this.timestamp,
+      sign,
+      msg_type: 'interactive',
+      card: {
+        config: {
+          wide_screen_mode: true,
+          enable_forward: true,
+        },
+        header: {
+          title: {
+            content: `${inputs.notifyTitle}`,
+            tag: 'plain_text',
+          },
+          template: 'red',
+        },
+        elements: [
+          {
+            tag: 'div',
+            text: {
+              content: `**Author** ${ctxFormatContent.actor}`,
+              tag: 'lark_md',
+            },
+          },
+          {
+            tag: 'div',
+            text: {
+              content: `**Ref** ${ctxFormatContent.ref}  **Event** ${ctxFormatContent.eventName}`,
+              tag: 'lark_md',
+            },
+          },
+          {
+            tag: 'img',
+            title: {
+              tag: 'lark_md',
+              content: '**部署故障，请排查**',
+            },
+            mode: 'crop_center',
+            img_key: `${JOB_FAILURE_STATUS_PIC}`,
+            alt: {
+              tag: 'plain_text',
+              content: '部署故障，请排查',
+            },
+          },
+          {
+            tag: 'div',
+            text: {
+              content: `**Message**，\n ${inputs.notifyMessage || ctxFormatContent.commitsContent}`,
+              tag: 'lark_md',
+            },
+          },
+          {
+            actions: [
+              {
+                tag: 'button',
+                text: {
+                  content: 'More Information :玫瑰:',
+                  tag: 'lark_md',
+                },
+                url: `${ctxFormatContent.actionUrl}`,
+                type: 'default',
+                value: {},
+              },
+            ],
+            tag: 'action',
+          },
+        ],
+      },
+    };
 
     const res: any = await axios({
       method: 'post',

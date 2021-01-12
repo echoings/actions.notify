@@ -7,6 +7,7 @@ export default abstract class Notify {
     constructor(webhook: string, githubCtx: Context, inputs: any);
     init(ctx?: Context): void;
     abstract notify(): any;
+    abstract notifyFailure(): any;
 }
 interface Res {
     code: number;

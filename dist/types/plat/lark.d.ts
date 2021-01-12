@@ -7,5 +7,6 @@ export default class Lark extends Notify {
     uploadLocalFile(url: string): Promise<string>;
     getAccessToken(LARK_APP_ID: string, LARK_APP_SECRECT: string): Promise<string>;
     notify(): Promise<Res>;
+    notifyFailure(): Promise<Res>;
     genSin(signKey: string | undefined, timestamp: string): string;
 }

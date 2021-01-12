@@ -7,4 +7,7 @@ export default class Telegram extends Notify {
   notify(): Promise<Res> {
     throw new Error('Method not implemented.');
   }
+  async notifyFailure(): Promise<string> {
+    return '';
+  }
 }
