@@ -53,6 +53,8 @@ module.exports = async function notify(
   },
   utils: {
     axios: 'axios',
+    FormData: 'form-data',
+    fs: 'fs-extra',
     core: '@actions/core',
     github: '@actions/github'
   }

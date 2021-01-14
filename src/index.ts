@@ -9,6 +9,8 @@ import * as glob from '@actions/glob';
 import * as io from '@actions/io';
 import * as toolCache from '@actions/tool-cache';
 import axios from 'axios';
+import FormData from 'form-data';
+import fs from 'fs-extra';
 
 import Plat from './plat';
 
@@ -50,6 +52,8 @@ async function run() {
           },
           {
             axios,
+            FormData,
+            fs,
             core,
             github,
             exec,
