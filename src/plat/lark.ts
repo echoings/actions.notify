@@ -6,10 +6,14 @@ import fs from 'fs-extra';
 
 import Notify, { Context, Res } from './notify';
 
+function getTime(): string {
+  return (Date.parse(new Date().toString()) / 1000).toString();
+}
+
 export default class Lark extends Notify {
   signKey: string | undefined;
   signature: string | undefined;
-  timestamp: string = new Date().getTime().toString();
+  timestamp: string = getTime();
   constructor(webhook: string, githubCtx: Context, inputs: any) {
     super(webhook, githubCtx, inputs);
     this.signKey = inputs.signKey;
@@ -36,7 +40,7 @@ export default class Lark extends Notify {
     };
 
     const request_config: any = {
-      url: 'https://open.feishu.cn/open-apis/image/v4/put/',
+      url: 'https://open.feishu.cn/open-apis/im/v1/images',
       method: 'POST',
       headers: {
         Authorization: `Bearer ${tenant_access_token}`,
@@ -106,7 +110,7 @@ export default class Lark extends Notify {
       image_key = await this.uploadLocalFile(url);
     }
 
-    this.timestamp = new Date().getTime().toString();
+    this.timestamp = getTime();
     if (this.signKey) {
       this.signature = this.genSin(this.signKey, this.timestamp);
     }
