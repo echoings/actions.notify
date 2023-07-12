@@ -20,14 +20,14 @@ export default class Lark extends Notify {
   }
 
   async uploadLocalFile(url: string): Promise<string> {
-    const { LARK_APP_ID = '', LARK_APP_SECRECT = '' } = process.env;
+    const { LARK_APP_ID = '', LARK_APP_SECRET = '' } = process.env;
 
-    if (!(LARK_APP_ID && LARK_APP_SECRECT)) {
-      core.setFailed(`Action failed with error missing onf of [LARK_APP_ID, LARK_APP_SECRECT]`);
+    if (!(LARK_APP_ID && LARK_APP_SECRET)) {
+      core.setFailed(`Action failed with error missing onf of [LARK_APP_ID, LARK_APP_SECRET]`);
 
       return '';
     }
-    const tenant_access_token = await this.getAccessToken(LARK_APP_ID, LARK_APP_SECRECT);
+    const tenant_access_token = await this.getAccessToken(LARK_APP_ID, LARK_APP_SECRET);
 
     if (!tenant_access_token) return '';
 
@@ -60,7 +60,7 @@ export default class Lark extends Notify {
     return '';
   }
 
-  async getAccessToken(LARK_APP_ID: string, LARK_APP_SECRECT: string): Promise<string> {
+  async getAccessToken(LARK_APP_ID: string, LARK_APP_SECRET: string): Promise<string> {
     const res = await axios.request({
       url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
       method: 'POST',
@@ -69,7 +69,7 @@ export default class Lark extends Notify {
       },
       data: {
         app_id: LARK_APP_ID,
-        app_secret: LARK_APP_SECRECT,
+        app_secret: LARK_APP_SECRET,
       },
     });
 
