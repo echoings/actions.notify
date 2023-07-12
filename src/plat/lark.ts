@@ -52,6 +52,7 @@ export default class Lark extends Notify {
     const uploadRes = await axios.request(request_config);
 
     if (uploadRes.status === 200 && uploadRes.data && uploadRes.data.code === 0) {
+      core.debug(`imgKey:${uploadRes.data.data.image_key}`);
       return uploadRes.data.data.image_key;
     }
 
@@ -62,7 +63,7 @@ export default class Lark extends Notify {
 
   async getAccessToken(LARK_APP_ID: string, LARK_APP_SECRET: string): Promise<string> {
     const res = await axios.request({
-      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
+      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -83,6 +84,8 @@ export default class Lark extends Notify {
       core.setFailed('get tenant_access_token error, please check');
       return '';
     }
+
+    core.debug(`token:${tenant_access_token}`);
 
     return tenant_access_token;
   }
@@ -106,6 +109,9 @@ export default class Lark extends Notify {
     const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
 
     const existsPic = await fs.pathExists(url);
+
+    core.debug(`imageInfo: ${JSON.stringify(imageInfo)}`);
+    core.debug(`existsPic: ${existsPic}`);
     if (imageInfo['enable'] === 'true' && existsPic) {
       image_key = await this.uploadLocalFile(url);
     }
@@ -115,6 +121,7 @@ export default class Lark extends Notify {
       this.signature = this.genSin(this.signKey, this.timestamp);
     }
 
+    core.debug(`signature: ${this.signature}`);
     const { ctxFormatContent, signature: sign, inputs } = this;
 
     const requestPayload = {
