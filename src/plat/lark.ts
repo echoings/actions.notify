@@ -50,7 +50,10 @@ export default class Lark extends Notify {
       data: form_data,
     };
 
-    const uploadRes = await axios.request(request_config);
+    const uploadRes = await axios.request(request_config).catch(err => {
+      core.debug(`img upload fail code: ${err.code} body: ${JSON.stringify(err.response.data)}`);
+      return err.response;
+    });
 
     if (uploadRes.status === 200 && uploadRes.data && uploadRes.data.code === 0) {
       core.debug(`imgKey:${uploadRes.data.data.image_key}`);
