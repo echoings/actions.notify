@@ -31,8 +31,9 @@ export default class Lark extends Notify {
 
     if (!tenant_access_token) return '';
 
+    const image = await fs.promises.readFile(url);
     const form_data = new FormData();
-    form_data.append('image', fs.createReadStream(url));
+    form_data.append('image', image);
     form_data.append('image_type', 'message');
 
     const headers = {
