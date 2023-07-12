@@ -1,5 +1,5 @@
-name: 'Notify (Lark, Slack, Telegram)'
-description: 'Sending a message to your social platform'
+name: 'lark notify'
+description: 'send message to lark client'
 branding:
   icon: send
   color: orange
