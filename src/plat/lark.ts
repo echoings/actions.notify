@@ -19,7 +19,7 @@ export default class Lark extends Notify {
     this.signKey = inputs.signKey;
   }
 
-  async uploadLocalFile(url: string): Promise<string> {
+  async uploadLocalFile(url: string, type: 'path' | 'base64'): Promise<string> {
     const { LARK_APP_ID = '', LARK_APP_SECRET = '' } = process.env;
 
     if (!(LARK_APP_ID && LARK_APP_SECRET)) {
@@ -30,8 +30,10 @@ export default class Lark extends Notify {
     const tenant_access_token = await this.getAccessToken(LARK_APP_ID, LARK_APP_SECRET);
 
     if (!tenant_access_token) return '';
-
-    const image = await fs.promises.readFile(url);
+    const image =
+      type === 'path'
+        ? fs.createReadStream(url)
+        : Buffer.from(url.replace(/^data:image\/\w+;base64,/, ''), 'base64');
     const form_data = new FormData();
     form_data.append('image', image);
     form_data.append('image_type', 'message');
@@ -110,14 +112,18 @@ export default class Lark extends Notify {
       });
 
     let image_key = '';
-    const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
+    const { url = '', base64, title: imageTitle = '预览二维码' } = imageInfo;
 
     const existsPic = await fs.pathExists(url);
 
     core.debug(`imageInfo: ${JSON.stringify(imageInfo)}`);
     core.debug(`existsPic: ${existsPic}`);
+
     if (imageInfo['enable'] === 'true' && existsPic) {
-      image_key = await this.uploadLocalFile(url);
+      image_key = await this.uploadLocalFile(url, 'path');
+    }
+    if (imageInfo['enable'] === 'true' && base64) {
+      image_key = await this.uploadLocalFile(base64, 'base64');
     }
 
     this.timestamp = getTime();
