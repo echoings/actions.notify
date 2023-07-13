@@ -6,29 +6,36 @@ import fs from 'fs-extra';
 
 import Notify, { Context, Res } from './notify';
 
+function getTime(): string {
+  return (Date.parse(new Date().toString()) / 1000).toString();
+}
+
 export default class Lark extends Notify {
   signKey: string | undefined;
   signature: string | undefined;
-  timestamp: string = new Date().getTime().toString();
+  timestamp: string = getTime();
   constructor(webhook: string, githubCtx: Context, inputs: any) {
     super(webhook, githubCtx, inputs);
     this.signKey = inputs.signKey;
   }
 
-  async uploadLocalFile(url: string): Promise<string> {
-    const { LARK_APP_ID = '', LARK_APP_SECRECT = '' } = process.env;
+  async uploadLocalFile(url: string, type: 'path' | 'base64'): Promise<string> {
+    const { LARK_APP_ID = '', LARK_APP_SECRET = '' } = process.env;
 
-    if (!(LARK_APP_ID && LARK_APP_SECRECT)) {
-      core.setFailed(`Action failed with error missing onf of [LARK_APP_ID, LARK_APP_SECRECT]`);
+    if (!(LARK_APP_ID && LARK_APP_SECRET)) {
+      core.setFailed(`Action failed with error missing onf of [LARK_APP_ID, LARK_APP_SECRET]`);
 
       return '';
     }
-    const tenant_access_token = await this.getAccessToken(LARK_APP_ID, LARK_APP_SECRECT);
+    const tenant_access_token = await this.getAccessToken(LARK_APP_ID, LARK_APP_SECRET);
 
     if (!tenant_access_token) return '';
-
+    const image =
+      type === 'path'
+        ? fs.createReadStream(url)
+        : Buffer.from(url.replace(/^data:image\/\w+;base64,/, ''), 'base64');
     const form_data = new FormData();
-    form_data.append('image', fs.createReadStream(url));
+    form_data.append('image', image);
     form_data.append('image_type', 'message');
 
     const headers = {
@@ -36,7 +43,7 @@ export default class Lark extends Notify {
     };
 
     const request_config: any = {
-      url: 'https://open.feishu.cn/open-apis/image/v4/put/',
+      url: 'https://open.feishu.cn/open-apis/im/v1/images',
       method: 'POST',
       headers: {
         Authorization: `Bearer ${tenant_access_token}`,
@@ -45,9 +52,13 @@ export default class Lark extends Notify {
       data: form_data,
     };
 
-    const uploadRes = await axios.request(request_config);
+    const uploadRes = await axios.request(request_config).catch(err => {
+      core.debug(`img upload fail code: ${err.code} body: ${JSON.stringify(err.response.data)}`);
+      return err.response;
+    });
 
     if (uploadRes.status === 200 && uploadRes.data && uploadRes.data.code === 0) {
+      core.debug(`imgKey:${uploadRes.data.data.image_key}`);
       return uploadRes.data.data.image_key;
     }
 
@@ -56,16 +67,16 @@ export default class Lark extends Notify {
     return '';
   }
 
-  async getAccessToken(LARK_APP_ID: string, LARK_APP_SECRECT: string): Promise<string> {
+  async getAccessToken(LARK_APP_ID: string, LARK_APP_SECRET: string): Promise<string> {
     const res = await axios.request({
-      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
+      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
       method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
       data: {
         app_id: LARK_APP_ID,
-        app_secret: LARK_APP_SECRECT,
+        app_secret: LARK_APP_SECRET,
       },
     });
 
@@ -79,6 +90,8 @@ export default class Lark extends Notify {
       core.setFailed('get tenant_access_token error, please check');
       return '';
     }
+
+    core.debug(`token:${tenant_access_token}`);
 
     return tenant_access_token;
   }
@@ -99,18 +112,26 @@ export default class Lark extends Notify {
       });
 
     let image_key = '';
-    const { url = '', title: imageTitle = '预览二维码' } = imageInfo;
+    const { url = '', base64, title: imageTitle = '预览二维码' } = imageInfo;
 
     const existsPic = await fs.pathExists(url);
+
+    core.debug(`imageInfo: ${JSON.stringify(imageInfo)}`);
+    core.debug(`existsPic: ${existsPic}`);
+
     if (imageInfo['enable'] === 'true' && existsPic) {
-      image_key = await this.uploadLocalFile(url);
+      image_key = await this.uploadLocalFile(url, 'path');
+    }
+    if (imageInfo['enable'] === 'true' && base64) {
+      image_key = await this.uploadLocalFile(base64, 'base64');
     }
 
-    this.timestamp = new Date().getTime().toString();
+    this.timestamp = getTime();
     if (this.signKey) {
       this.signature = this.genSin(this.signKey, this.timestamp);
     }
 
+    core.debug(`signature: ${this.signature}`);
     const { ctxFormatContent, signature: sign, inputs } = this;
 
     const requestPayload = {

@@ -30,3 +30,6 @@ yarn-error.log*
 
 # lockfile
 package-lock.json
+
+# local history
+.history/
